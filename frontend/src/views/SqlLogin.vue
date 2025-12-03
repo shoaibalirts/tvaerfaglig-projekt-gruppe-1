@@ -40,7 +40,7 @@ export default {
     async login() {
       const data = {
         user_name: this.Username,
-        user_password: this.UserPassword,''
+        user_password: this.UserPassword,
       };
       const loginUser = await login(data);
       if (loginUser === 201) {
