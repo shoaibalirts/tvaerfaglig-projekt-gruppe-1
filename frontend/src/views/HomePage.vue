@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <the-header></the-header>
-    <v-main class="mt-0">
+    <v-main class="main" >
       <ShoppingList />
       <PlusButton />
     </v-main>
@@ -27,3 +27,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+.main{
+position: unset;
+z-index: 1;
+  
+}
+</style>

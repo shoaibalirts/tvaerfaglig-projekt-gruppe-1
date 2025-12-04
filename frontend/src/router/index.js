@@ -17,10 +17,16 @@ const router = createRouter({
       path: "/",
       name: "Home",
       component: HomePage,
+      meta: {
+        headerDesc:'Home',
+       headerTitle:'don',
+
+      }
     },
     {
       path: "/add-new",
       component: AddNewList,
+
     },
     {
       path: "/lists",

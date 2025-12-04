@@ -1,29 +1,30 @@
 <template>
-  <v-skeleton-loader type="card" v-if="loading"></v-skeleton-loader>
-  <v-card class="mx-auto" v-else>
-    <v-card-title class="text-center bg-primary rounded-b-circle">Seneste 30 dage</v-card-title>
+  <v-skeleton-loader   type="card" v-if="loading"></v-skeleton-loader>
+  <v-card class="mx-auto margin" v-else>
+    <v-card-title class=" mb-0 rounded-b-circle h3">Seneste 30 dage</v-card-title>
 
     <v-list v-if="recent30DaysList.length > 0" class="pb-0">
-      <div v-for="(list, index) in recent30DaysList" :key="`recent-${index}`">
+      <div class="div-box" v-for="(list, index) in recent30DaysList" :key="`recent-${index}`">
         <list-item :listData="list" />
         <v-divider></v-divider>
       </div>
     </v-list>
-    <v-card-text v-else class="text-center text-medium-emphasis"
+    <!-- <v-card-text v-else class="text-center text-medium-emphasis"
       >Ingen lister i de sidste 30 dage.</v-card-text
-    >
-
-    <v-card-title class="text-center bg-primary rounded-b-circle">Sidste måned</v-card-title>
-
-    <v-list v-if="previousMonthList.length > 0" class="pb-0">
-      <div v-for="(list, index) in previousMonthList" :key="`prev-month-${index}`">
-        <list-item :listData="list" />
-        <v-divider></v-divider>
-      </div>
-    </v-list>
-    <v-card-text v-else class="text-center text-medium-emphasis"
+    > --> <v-card-text v-else class="text-center text-medium-emphasis"
       >Ingen lister fra sidste måned.</v-card-text
     >
+
+        <v-card-title class="text-left  h3">Sidste Måned</v-card-title>
+
+
+    <v-list v-if="previousMonthList.length > 0" class="pb-0">
+      <div class="div-box" v-for="(list, index) in previousMonthList" :key="`prev-month-${index}`">
+        <list-item :listData="list" />
+        <v-divider></v-divider>
+      </div>
+    </v-list>
+   
   </v-card>
 </template>
 
@@ -172,3 +173,29 @@ export default {
   },
 };
 </script>
+<style scoped>
+.margin{
+  /* margin-top:50px; */
+  position: unset;
+  margin-top: 0px;
+
+}
+.h3{
+  color: #B3B3B3;
+  font-weight:  bold;
+  margin-top: 14px;
+ 
+}
+.div-box{
+  background-color:red!important;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  /* padding-top:0px;
+  margin-top:0px!important;
+  padding-top:0px;
+  padding: 8px; */
+
+}
+</style>
