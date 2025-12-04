@@ -23,7 +23,7 @@
           <v-chip
             :color="getLevelColor(list.co2Level)"
             size="small"
-            text-color="white"
+            text-color="red"
             label
           >
             {{ list.co2Level }}
