@@ -14,10 +14,11 @@
 
     <template v-slot:append>
       <v-btn>
-        <v-icon :icon="mdiMagnify"></v-icon>
+        <!-- <v-icon :icon="mdiMagnify"></v-icon> -->
+  <button class="bg-icon-btn"></button>
       </v-btn>
       <v-btn>
-        <v-icon :icon="mdiDotsVertical"></v-icon>
+        <!-- <v-icon :icon="mdiDotsVertical"></v-icon> -->
       </v-btn>
     </template>
   </v-app-bar>
@@ -40,3 +41,9 @@ export default {
   },
 };
 </script>
+<style>
+.bg-icon.bg{
+  background-image: url("scr/edit.png");
+}
+
+</style>
