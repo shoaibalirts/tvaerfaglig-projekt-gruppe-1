@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <v-card class="mx-auto" max-width="500" height="70vh">
     <v-toolbar color="primary" density="compact" flat>
       <v-toolbar-title>chat room</v-toolbar-title>
@@ -44,12 +44,33 @@
       </v-row>
     </v-container>
   </v-card>
+</template> -->
+<template>
+  <div class="chat-container">
+    <h1>Chat Room</h1>
+    <div class="messages" id="messageArea">{{ messageFromServer }}</div>
+    <div>{{ messageFromClient }}</div>
+    <form class="input-container" @submit.prevent="handleChat">
+      <input
+        type="text"
+        id="messageInput"
+        v-model="userInput"
+        :rules="rules"
+        placeholder="Type your message..."
+      />
+      <button type="submit" class="send-button">Send</button>
+    </form>
+  </div>
 </template>
-
 <script>
-// Remember to import mdi icons if you are using them globally
 import { io } from "socket.io-client";
-
+const socket = io("http://localhost:3000", {
+  withCredentials: true,
+});
+socket.on("messageFromServer", (message) => {
+  console.log("Message from Server: ", message);
+});
+/*
 export default {
   data() {
     return {
@@ -101,12 +122,95 @@ export default {
     },
   },
 };
+*/
+export default {
+  data() {
+    return {
+      userInput: "",
+      rules: [(v) => !!v || "Field is required"],
+      messageFromServer: "",
+      messageFromClient: "",
+      socket: null,
+    };
+  },
+  methods: {
+    async handleChat() {
+      const message = this.userInput;
+      if (message) {
+        this.socket.emit("messageFromClient", message);
+        this.socket.on("messa");
+      }
+      this.userInput = "";
+    },
+  },
+  mounted() {
+    this.socket = io("http://localhost:3000");
+    this.socket.on("messageFromServer", (message) => {
+      this.messageFromServer = message;
+    });
+  },
+};
 </script>
 
 <style scoped>
-/* Ensure the list scrolls and doesn't push the input off the screen */
+/* 
 .v-list {
   display: flex;
-  flex-direction: column-reverse; /* Start scrolling from the bottom */
+  flex-direction: column-reverse; 
+}*/
+
+.chat-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.messages {
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.server-message {
+  background-color: #e3f2fd;
+  margin-right: 20%;
+}
+
+.client-message {
+  background-color: #f5f5f5;
+  margin-left: 20%;
+}
+
+.input-container {
+  display: flex;
+  gap: 10px;
+}
+
+#messageInput {
+  flex: 1;
+  padding: 8px;
+}
+
+button {
+  padding: 8px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 </style>

@@ -36,10 +36,10 @@ const io = new Server(httpServer, {
   // io is the server from socket.io
   cors: {
     origin: "http://localhost:5173",
-    credential: true,
+    credentials: true,
   },
 });
-io.on("connect", (socket) => {
+io.on("connection", (socket) => {
   console.log(`A new user connected: ${socket.id}`);
   // Example of a chat event listener
   // socket.on("sendMessage", (messageData) => {
@@ -47,12 +47,10 @@ io.on("connect", (socket) => {
   //   // 2. Broadcast the message to all other connected clients
   //   io.emit("receiveMessage", "messageData to soufian");
   // });
-  socket.emit("messageFromServer", {
-    msg: "Hello from the nodejs server",
-    id: socket.id,
-  });
+  socket.emit("messageFromServer", "Shoaib: How can I help you?");
   socket.on("messageFromClient", (message) => {
-    console.log("Message from client: ", message.msg);
+    // console.log("Message from client: ", message.msg);
+    console.log("message received from client: ", message);
   });
   socket.on("disconnect", () => {
     console.log(`The user disconnected who had id: ${socket.id}`);
