@@ -7,9 +7,10 @@ import AddProduct from "@/views/AddProduct.vue";
 import SqlProducts from "@/views/SqlProducts.vue";
 import SqlProduct from "@/views/SqlProduct.vue";
 import updateproduct from "@/views/updateproduct.vue";
-import DeleteProduct from "@/views/DeleteProduct.vue";
+// import DeleteProduct from "@/views/DeleteProduct.vue";
 import SqlLogin from "@/views/SqlLogin.vue";
 import SqlRegister from "@/views/SqlRegister.vue";
+import TheChat from "@/views/TheChat.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -50,6 +51,10 @@ const router = createRouter({
       path: "/updateproduct",
       component: updateproduct,
     },
+    {
+      path: "/chat",
+      component: TheChat,
+    },
     // {
     //   path: "/deleteproduct",
     //   component: DeleteProduct,
@@ -72,7 +77,7 @@ const router = createRouter({
     },
     {
       path: "/:pathMatch(.*)*",
-      redirect: "/lists",
+      redirect: "/",
     },
   ],
 });
