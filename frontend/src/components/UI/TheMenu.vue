@@ -21,13 +21,11 @@ import Cookies from "js-cookie";
 export default {
   data() {
     return {
-      isCookieData: false,
-      // isUserLoggedin: true,
-      // isUserRegistered: true,
       items: [
         // { title: "Add a product", to: "/addproduct" },
         { title: "Produkter", to: "/products" },
         { title: "Chat", to: "/chat" },
+        { title: "Signout", to: "/logout" },
         // { title: "Find a single product", to: "/product" },
         // { title: "Update Product", to: "/updateproduct" },
         // { title: "Remove Product", to: "/deleteproduct" },
@@ -40,8 +38,9 @@ export default {
   },
   computed: {
     isLoggedIn() {
-      console.log("Checking token:", Cookies.get("token_debug"));
-      return !!Cookies.get("token_debug");
+      // console.log("Checking token:", Cookies.get("token"));
+      console.log("Checking token:", Cookies.get("token")); // undefined first, then after changing to localhost at the server, i get the value
+      return !!Cookies.get("token");
     },
   },
 };
