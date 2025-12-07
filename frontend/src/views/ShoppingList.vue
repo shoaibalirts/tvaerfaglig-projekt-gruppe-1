@@ -1,7 +1,7 @@
 <template>
   <v-skeleton-loader   type="card" v-if="loading"></v-skeleton-loader>
-  <v-card class="mx-auto margin" v-else>
-    <v-card-title class=" mb-0 rounded-b-circle h3">Seneste 30 dage</v-card-title>
+  <v-card class="mx-auto " v-else>
+    <v-card-title class=" mb-0 h3">Seneste 30 dage</v-card-title>
 
     <v-list v-if="recent30DaysList.length > 0" class="pb-0">
       <div class="div-box" v-for="(list, index) in recent30DaysList" :key="`recent-${index}`">
@@ -182,20 +182,35 @@ export default {
 }
 .h3{
   color: #B3B3B3;
-  font-weight:  bold;
-  margin-top: 14px;
+  font-weight: medium;
+  /* background-color: aqua; */
+  /* margin: 0!important; */
+  /* padding: 0!important; */
+  
  
 }
 .div-box{
-  background-color:red!important;
+  /* background-color:red!important; */
   justify-content: center;
   align-items: center;
   display: flex;
   flex-direction: column;
+  margin-top: 0;
+  padding-top: 0;
+
   /* padding-top:0px;
   margin-top:0px!important;
   padding-top:0px;
   padding: 8px; */
 
+}
+.v-list {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.v-card-title {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 </style>

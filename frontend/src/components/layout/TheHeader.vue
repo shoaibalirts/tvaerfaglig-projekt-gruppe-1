@@ -2,7 +2,7 @@
   <v-app-bar class="header-green"  d-flex flex-column :elevation="4">
     <template v-slot:prepend>
     <!-- <template> -->
-      <v-menu location="bottom start">
+      <v-menu class="menu" location="bottom start">
         <template v-slot:activator="{ props }">
           <v-btn class="btnmenu" :icon="mdiMenu" v-bind="props"> </v-btn>
         </template>
@@ -51,19 +51,19 @@ header{
 display: flex;
   flex-direction: column;
       border-radius:0 0 50px 50px;
-      /* justify-content: center;
-      align-items: center;
-        text-align: center; */
-
+position: unset!important;
 }
-.header-green{
+ .header-green{
   background-color: green;
   height: 150px;
-    /* border-radius:50px; */
+    border-radius:50px; 
   justify-content: center;
   align-items: center;
   display: flex;
   flex-direction: column !important;
+  position: unset!important;
+margin-bottom: 0;
+padding-bottom: 0;
 
 
   text-align: center;
@@ -72,18 +72,17 @@ display: flex;
   border-radius: 0 0 50px 50px !important;
   box-shadow: inset -2px -12px 20px 10px rgba(0,0,0,0.3) !important;
   overflow: visible !important;
-  position: relative;
-  /* z-index: 0; */
   /* margin-bottom: 100px; */
 }
 h1{
-  font-size:25px;}
+  font-size:35px;}
   .v-bar-title-costum{
-    background-color:red;;
-    width: 100%;
-    position: relative;
+    background-color:red;
+      position: unset!important;
+
   }
 .btnmenu{
   position: fixed;
 }
+
 </style>

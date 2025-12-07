@@ -18,30 +18,42 @@ const router = createRouter({
       name: "Home",
       component: HomePage,
       meta: {
-        headerDesc:'Home',
-       headerTitle:'don',
+        headerDesc:'Dine',
+       headerTitle:'indkøbslister',
 
       }
     },
     {
       path: "/add-new",
       component: AddNewList,
-
+meta:{
+  headerDesc:'Dine',
+  headerTitle:'Tilføj ny liste'
+}
     },
     {
       path: "/lists",
       name: "ListsView",
       component: ListsView,
+      meta:{
+        headerDesc:'Dine',
+        headerTitle: 'List'
+      }
     },
     {
       path: "/lists/:id",
       name: "ListDetails",
       component: ListDetails,
       props: true,
+      
     },
     {
       path: "/addproduct",
       component: AddProduct,
+       meta:{
+        headerDesc:'Dine',
+        headerTitle: 'List'
+      }
     },
 
     {

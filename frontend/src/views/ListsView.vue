@@ -110,7 +110,10 @@ const goToList = (id) => router.push(`/lists/${id}`)
   border: 1px solid #e0e0e0;
   border-radius: 12px;
   background-color: #fff;
-  min-height: 90vh;
+  /* background-color: purple; */
+  
+  
+  /* min-height: 90vh; */
   
 }
 </style>
