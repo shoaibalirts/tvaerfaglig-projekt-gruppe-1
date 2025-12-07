@@ -6,6 +6,7 @@
           :icon="mdiPlus"
           size="large"
           :to="{ path: '/add-new' }"
+          aria-label="add new list"
           class="text-center bg-primary rounded-b-circle"
         ></v-btn>
       </v-col>

@@ -1,7 +1,12 @@
 <template>
   <div class="d-flex justify-space-around ga-4">
-    <v-btn :icon="mdiPencil" @click.stop="handleUpdate"></v-btn>
-    <v-btn :icon="mdiDelete" class="bg-primary" @click.stop="handleDelete"></v-btn>
+    <v-btn :icon="mdiPencil" @click.stop="handleUpdate" aria-label="update list"></v-btn>
+    <v-btn
+      :icon="mdiDelete"
+      class="bg-primary"
+      @click.stop="handleDelete"
+      aria-label="delete-list"
+    ></v-btn>
   </div>
 </template>
 

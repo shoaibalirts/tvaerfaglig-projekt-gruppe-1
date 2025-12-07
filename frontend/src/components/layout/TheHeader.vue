@@ -3,7 +3,7 @@
     <template v-slot:prepend>
       <v-menu location="bottom start">
         <template v-slot:activator="{ props }">
-          <v-btn :icon="mdiMenu" v-bind="props"> </v-btn>
+          <v-btn :icon="mdiMenu" v-bind="props" aria-label="menu"> </v-btn>
         </template>
 
         <the-menu />
@@ -13,10 +13,10 @@
     <v-app-bar-title>Dine Indkøbslister</v-app-bar-title>
 
     <template v-slot:append>
-      <v-btn>
+      <v-btn aria-label="search">
         <v-icon :icon="mdiMagnify"></v-icon>
       </v-btn>
-      <v-btn>
+      <v-btn aria-label="options">
         <v-icon :icon="mdiDotsVertical"></v-icon>
       </v-btn>
     </template>

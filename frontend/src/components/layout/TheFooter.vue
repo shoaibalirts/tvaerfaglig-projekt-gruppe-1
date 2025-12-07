@@ -3,10 +3,11 @@
     <div class="d-flex ga-3">
       <v-btn
         v-for="icon in icons"
-        :key="icon"
-        :icon="icon"
+        :key="icon.altText"
+        :icon="icon.icon"
         density="comfortable"
         variant="text"
+        :aria-label="icon.altText"
       ></v-btn>
     </div>
   </v-footer>
@@ -16,7 +17,12 @@ import { mdiFacebook, mdiTwitter, mdiLinkedin, mdiInstagram } from "@mdi/js";
 export default {
   data() {
     return {
-      icons: [mdiFacebook, mdiTwitter, mdiLinkedin, mdiInstagram],
+      icons: [
+        { icon: mdiFacebook, altText: "Facebook" },
+        { icon: mdiTwitter, altText: "Twitter" },
+        { icon: mdiLinkedin, altText: "LinkedIn" },
+        { icon: mdiInstagram, altText: "Instagram" },
+      ],
     };
   },
   methods: {},
