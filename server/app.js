@@ -21,6 +21,7 @@ import {
   deleteProduct,
   signin,
   createUser,
+  getMessagesFromClient,
 } from "../server/controllers/dinProdukter.js";
 // Get current file's directory
 const __filename = fileURLToPath(import.meta.url);
@@ -47,11 +48,13 @@ io.on("connection", (socket) => {
   //   // 2. Broadcast the message to all other connected clients
   //   io.emit("receiveMessage", "messageData to soufian");
   // });
-  socket.emit("messageFromServer", "Shoaib: How can I help you?");
-  socket.on("messageFromClient", (message) => {
-    // console.log("Message from client: ", message.msg);
+  socket.emit("messageFromServer", "Support: How can I help you?");
+  socket.on("messageFromClient", async (message) => {
     console.log("message received from client: ", message);
+    // this message will be saved in MySql user table
+    // user_message
   });
+
   socket.on("disconnect", () => {
     console.log(`The user disconnected who had id: ${socket.id}`);
   });
@@ -84,6 +87,7 @@ router
   .route("/")
   .get(getAllProducts) // reading all products from MySql product table
   .post(createProduct);
+// router.route("/chat").get(getMessagesFromClient);
 router.route("/createproduct").post(createProduct); // creating a new product by loggedin user
 
 router

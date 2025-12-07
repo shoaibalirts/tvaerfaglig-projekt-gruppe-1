@@ -48,9 +48,13 @@
 <template>
   <div class="chat-container">
     <h1>Chat Room</h1>
-    <div class="messages" id="messageArea">{{ messageFromServer }}</div>
-    <div>{{ messageFromClient }}</div>
-    <form class="input-container" @submit.prevent="handleChat">
+    <div class="messages" id="messageArea">
+      {{ messageFromServer }}
+      <div>
+        <client-message>{{ messageFromClient }}</client-message>
+      </div>
+    </div>
+    <form class="input-container" @submit.prevent="handleSendMessage">
       <input
         type="text"
         id="messageInput"
@@ -64,11 +68,18 @@
 </template>
 <script>
 import { io } from "socket.io-client";
+import ClientMessage from "./ClientMessage.vue";
 const socket = io("http://localhost:3000", {
   withCredentials: true,
 });
 socket.on("messageFromServer", (message) => {
   console.log("Message from Server: ", message);
+});
+socket.emit("messageFromClient", (message) => {
+  console.log("MessageFromClient", message);
+});
+socket.on("messageFromServerReceivedFromClient", (message) => {
+  console.log("messageFromServerReceivedFromClient: ", message);
 });
 /*
 export default {
@@ -124,6 +135,7 @@ export default {
 };
 */
 export default {
+  components: { ClientMessage },
   data() {
     return {
       userInput: "",
@@ -134,13 +146,14 @@ export default {
     };
   },
   methods: {
-    async handleChat() {
+    async handleSendMessage() {
       const message = this.userInput;
       if (message) {
         this.socket.emit("messageFromClient", message);
-        this.socket.on("messa");
+        // DOM
+        this.messageFromClient = message;
+        this.userInput = "";
       }
-      this.userInput = "";
     },
   },
   mounted() {

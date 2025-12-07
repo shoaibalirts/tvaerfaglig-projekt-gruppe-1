@@ -21,9 +21,6 @@ import Cookies from "js-cookie";
 export default {
   data() {
     return {
-      isCookieData: false,
-      // isUserLoggedin: true,
-      // isUserRegistered: true,
       items: [
         // { title: "Add a product", to: "/addproduct" },
         { title: "Produkter", to: "/products" },
@@ -40,8 +37,10 @@ export default {
   },
   computed: {
     isLoggedIn() {
-      console.log("Checking token:", Cookies.get("token_debug"));
-      return !!Cookies.get("token_debug");
+      // console.log("Checking token:", Cookies.get("token_debug"));
+      console.log("Checking token:", Cookies.get("token")); // undefined
+      // return !!Cookies.get("token_debug");
+      return !!Cookies.get("token");
     },
   },
 };
