@@ -4,7 +4,7 @@
     :to="{ name: 'ListDetails', params: { id: listData.id } }"
   >
     <v-list-item-title class="font-weight-bold">{{ listData.listName }}</v-list-item-title>
-    <v-list-item-subtitle>{{ listData.listCreatedDate }}</v-list-item-subtitle>
+    <v-list-item-subtitle :opacity="0.7">{{ listData.listCreatedDate }}</v-list-item-subtitle>
 
     <template v-slot:append>
       <div class="d-flex flex-column align-end">
