@@ -20,7 +20,9 @@ import {
   updateProduct,
   deleteProduct,
   signin,
+  signout,
   createUser,
+  getMessagesFromClient,
 } from "../server/controllers/dinProdukter.js";
 // Get current file's directory
 const __filename = fileURLToPath(import.meta.url);
@@ -36,10 +38,10 @@ const io = new Server(httpServer, {
   // io is the server from socket.io
   cors: {
     origin: "http://localhost:5173",
-    credential: true,
+    credentials: true,
   },
 });
-io.on("connect", (socket) => {
+io.on("connection", (socket) => {
   console.log(`A new user connected: ${socket.id}`);
   // Example of a chat event listener
   // socket.on("sendMessage", (messageData) => {
@@ -47,13 +49,13 @@ io.on("connect", (socket) => {
   //   // 2. Broadcast the message to all other connected clients
   //   io.emit("receiveMessage", "messageData to soufian");
   // });
-  socket.emit("messageFromServer", {
-    msg: "Hello from the nodejs server",
-    id: socket.id,
+  socket.emit("messageFromServer", "Support: How can I help you?");
+  socket.on("messageFromClient", async (message) => {
+    console.log("message received from client: ", message);
+    // this message will be saved in MySql user table
+    // user_message
   });
-  socket.on("messageFromClient", (message) => {
-    console.log("Message from client: ", message.msg);
-  });
+
   socket.on("disconnect", () => {
     console.log(`The user disconnected who had id: ${socket.id}`);
   });
@@ -77,6 +79,7 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 const router = express.Router();
 router.route("/signin").post(authenticateToken, signin);
+router.route("/signout").post(signout);
 router.route("/signup").post(createUser);
 
 app.use("/api/dinprodukter", authenticateToken);
@@ -86,6 +89,7 @@ router
   .route("/")
   .get(getAllProducts) // reading all products from MySql product table
   .post(createProduct);
+// router.route("/chat").get(getMessagesFromClient);
 router.route("/createproduct").post(createProduct); // creating a new product by loggedin user
 
 router
