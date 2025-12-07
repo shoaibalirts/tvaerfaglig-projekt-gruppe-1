@@ -20,6 +20,7 @@ import {
   updateProduct,
   deleteProduct,
   signin,
+  signout,
   createUser,
   getMessagesFromClient,
 } from "../server/controllers/dinProdukter.js";
@@ -78,6 +79,7 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 const router = express.Router();
 router.route("/signin").post(authenticateToken, signin);
+router.route("/signout").post(signout);
 router.route("/signup").post(createUser);
 
 app.use("/api/dinprodukter", authenticateToken);

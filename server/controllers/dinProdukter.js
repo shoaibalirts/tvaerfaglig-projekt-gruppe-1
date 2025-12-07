@@ -227,6 +227,24 @@ export const signin = async (req, res, next) => {
   }
 };
 
+// @desc      Create signout controller
+// @route     POST /api/dinprodukter
+// @access    Private, meaning after login we have to send a token
+
+export const signout = async (req, res, next) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+    expires: new Date(0), // expires instantly
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "Logged out successfully",
+  });
+};
+
 // @desc      Get all messages from client
 // @route     Get /api/dinprodukter/chat
 // @access    Public

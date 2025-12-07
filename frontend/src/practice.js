@@ -124,9 +124,9 @@ console.log("Items from the last 30 days:");
 console.log(recentItems);
 
 const string1 =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcl9uYW1lIjoic2hvYWliMSIsImlhdCI6MTc2NTExNzQ5MCwiZXhwIjoxNzY1MTIxMDkwfQ.-1K7aaLijcy7jF1zfML9BPybjuYXoC6juen00QnyVx8";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsInVzZXJfbmFtZSI6ImZhdGltYWFsaSIsImlhdCI6MTc2NTExODA4MSwiZXhwIjoxNzY1MTIxNjgxfQ.Jx2OWR6j93j4C1c5RyoVVOVlitjXZ6pMlnjJAFpI84I";
 const string2 =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsInVzZXJfbmFtZSI6ImZhdGltYWFsaSIsImlhdCI6MTc2NTExNzUwNCwiZXhwIjoxNzY1MTIxMTA0fQ.es_izkwHd87TsGa_M2HqYKfvt6yU-4IjPdcXjzERmSM";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsInVzZXJfbmFtZSI6ImZhdGltYWFsaSIsImlhdCI6MTc2NTExODA5NSwiZXhwIjoxNzY1MTIxNjk1fQ.kfv97e0yvc0AOfwvhygAbo9wnFg-XvS4ghzt9zHbJ7o";
 
 const compareValue = string1.localeCompare(string2);
 console.log(compareValue);

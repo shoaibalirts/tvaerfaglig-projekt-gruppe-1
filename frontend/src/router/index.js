@@ -9,6 +9,7 @@ import SqlProduct from "@/views/SqlProduct.vue";
 import updateproduct from "@/views/updateproduct.vue";
 // import DeleteProduct from "@/views/DeleteProduct.vue";
 import SqlLogin from "@/views/SqlLogin.vue";
+import SqlLogout from "@/views/SqlLogout.vue";
 import SqlRegister from "@/views/SqlRegister.vue";
 import TheChat from "@/views/TheChat.vue";
 const router = createRouter({
@@ -66,6 +67,10 @@ const router = createRouter({
         Desc: "Personale",
         adminHeaderTitle: "Login",
       },
+    },
+    {
+      path: "/logout",
+      component: SqlLogout,
     },
     {
       path: "/register",

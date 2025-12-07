@@ -112,3 +112,20 @@ export function login(data) {
       console.log("Error when logging in: " + error);
     });
 }
+
+export function logout() {
+  return axios
+    .post(`${API}/signout`, { withCredentials: true })
+    .then((results) => {
+      console.log("Api call:");
+      console.log(results);
+
+      console.log(results.status);
+      // Cookies.set("token_debug", results.data.token);
+
+      return results.status;
+    })
+    .catch(function (error) {
+      console.log("Error when logging out: " + error);
+    });
+}
