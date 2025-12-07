@@ -3,12 +3,18 @@
     <admin-header />
     <v-sheet class="mx-auto" width="300">
       <v-form @submit.prevent="login">
-        <v-text-field v-model="Username" :rules="rules" label="Username"></v-text-field>
+        <v-text-field
+          v-model="Username"
+          :rules="rules"
+          label="Username"
+          class="text-black"
+        ></v-text-field>
         <v-text-field
           v-model="UserPassword"
           :rules="rules"
           type="password"
           label="UserPassword"
+          class="text-black"
         ></v-text-field>
         <v-btn color="grey" :to="{ path: '/register' }">Register</v-btn>
         <login-btn-form class="mt-2" color="#096123" type="submit" block></login-btn-form>
@@ -52,3 +58,10 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-label {
+  color: black;
+  opacity: 0.8;
+}
+</style>

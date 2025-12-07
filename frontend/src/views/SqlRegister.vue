@@ -3,12 +3,18 @@
     <admin-header />
     <v-sheet class="mx-auto" width="300">
       <v-form @submit.prevent="register">
-        <v-text-field v-model="Username" :rules="rules" label="Username"></v-text-field>
+        <v-text-field
+          v-model="Username"
+          :rules="rules"
+          label="Username"
+          class="text-black"
+        ></v-text-field>
         <v-text-field
           v-model="UserPassword"
           :rules="rules"
           type="password"
           label="UserPassword"
+          class="text-black"
         ></v-text-field>
         <v-btn class="mt-2" color="grey" type="submit" block>Register</v-btn>
       </v-form>
@@ -51,5 +57,10 @@ export default {
 label {
   font-size: 12px;
   color: gray;
+}
+
+.v-label {
+  color: black;
+  opacity: 0.8;
 }
 </style>

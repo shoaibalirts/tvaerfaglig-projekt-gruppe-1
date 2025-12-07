@@ -4,12 +4,7 @@
       <v-icon :icon="mdiChevronLeft"></v-icon>Tilbage</v-btn
     >
 
-    <v-text-field
-      id="name-input"
-      placeholder="Skriv navn"
-      v-model="listName"
-      :rules="validationRules"
-    />
+    <v-text-field id="name-input" label="Skriv navn" v-model="listName" :rules="validationRules" />
 
     <v-list id="selected-products-list">
       <v-list-item v-for="product in shoppingListProducts" v-bind:key="product">
@@ -115,5 +110,10 @@ export default {
   max-height: 50vh;
   overflow: auto;
   margin-bottom: 3vh;
+}
+
+#name-input .v-label {
+  color: black;
+  opacity: 0.8;
 }
 </style>
