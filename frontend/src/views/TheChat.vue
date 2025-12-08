@@ -1,57 +1,13 @@
-<!-- <template>
-  <v-card class="mx-auto" max-width="500" height="70vh">
-    <v-toolbar color="primary" density="compact" flat>
-      <v-toolbar-title>chat room</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon><v-icon>mdi-account-group</v-icon></v-btn>
-    </v-toolbar>
-
-    <v-list class="pa-3" style="overflow-y: auto; height: calc(100% - 110px)">
-      <div v-for="(msg, index) in messages" :key="index">
-        <v-list-item v-if="msg.isUser" class="d-flex justify-end my-2 pa-0">
-          <v-chip color="blue-lighten-1" text-color="white" style="max-width: 80%">
-            {{ msg.text }}
-          </v-chip>
-        </v-list-item>
-
-        <v-list-item v-else class="d-flex justify-start my-2 pa-0">
-          <v-chip color="grey-lighten-2" style="max-width: 80%">
-            <span class="font-weight-bold mr-2">{{ msg.user }}:</span> {{ msg.text }}
-          </v-chip>
-        </v-list-item>
-      </div>
-    </v-list>
-
-    <v-divider></v-divider>
-
-    <v-container class="pa-2">
-      <v-row no-gutters>
-        <v-col cols="10">
-          <v-text-field
-            v-model="newMessage"
-            label="Type a message..."
-            variant="solo"
-            hide-details
-            clearable
-            @keydown.enter="sendMessage"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="2" class="d-flex justify-center align-center">
-          <v-btn :disabled="!newMessage" color="primary" icon size="small" @click="sendMessage">
-            <v-icon>mdi-send</v-icon>
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-card>
-</template> -->
 <template>
   <div class="chat-container">
     <h1>Chat Room</h1>
     <div class="messages" id="messageArea">
-      {{ messageFromServer }}
-      <div>
-        <client-message>{{ messageFromClient }}</client-message>
+      <div
+        v-for="(msg, index) in messages"
+        :key="index"
+        :class="['message', msg.sender === 'client' ? 'client-message' : 'server-message']"
+      >
+        {{ msg.message }}
       </div>
     </div>
     <form class="input-container" @submit.prevent="handleSendMessage">
@@ -68,7 +24,7 @@
 </template>
 <script>
 import { io } from "socket.io-client";
-import ClientMessage from "./ClientMessage.vue";
+
 const socket = io("http://localhost:3000", {
   withCredentials: true,
 });
@@ -81,149 +37,149 @@ socket.emit("messageFromClient", (message) => {
 socket.on("messageFromServerReceivedFromClient", (message) => {
   console.log("messageFromServerReceivedFromClient: ", message);
 });
-/*
+
 export default {
-  data() {
-    return {
-      socket: null,
-      newMessage: "",
-      messages: [
-        { text: "Hello, welcome to the chat!", user: "Admin", isUser: false },
-        { text: "Testing my message!", user: "You", isUser: true },
-      ],
-      userId: 1, // Your actual logged-in user ID
-    };
-  },
-  created() {
-    // 1. Initialize Socket.IO connection
-    this.socket = io("http://localhost:3000");
-
-    // 2. Listen for incoming messages from the server
-    this.socket.on("receiveMessage", this.handleIncomingMessage);
-
-    // 3. Optional: Fetch message history from your REST API here
-  },
-  methods: {
-    sendMessage() {
-      if (!this.newMessage.trim()) return;
-
-      const messageData = {
-        text: this.newMessage,
-        senderId: this.userId, // Send your ID
-        user: "You", // Replace with actual username from your auth state
-      };
-
-      // ⭐️ Emit message to the server ⭐️
-      this.socket.emit("sendMessage", messageData);
-
-      // Optimistically add message to local list (optional, but common)
-      this.messages.push({ ...messageData, isUser: true });
-
-      this.newMessage = ""; // Clear input
-    },
-
-    handleIncomingMessage(messageData) {
-      // Only add if it's NOT a message we already added (e.g., sent from a different device)
-      if (messageData.senderId !== this.userId) {
-        this.messages.push({
-          ...messageData,
-          isUser: false,
-        });
-      }
-    },
-  },
-};
-*/
-export default {
-  components: { ClientMessage },
   data() {
     return {
       userInput: "",
+      messages: [],
       rules: [(v) => !!v || "Field is required"],
       messageFromServer: "",
       messageFromClient: "",
+      sender: "",
       socket: null,
     };
   },
   methods: {
-    async handleSendMessage() {
-      const message = this.userInput;
-      if (message) {
-        this.socket.emit("messageFromClient", message);
-        // DOM
-        this.messageFromClient = message;
-        this.userInput = "";
-      }
+    // sending message to server from client
+    handleSendMessage() {
+      if (!this.userInput) return;
+
+      this.addMessage(this.userInput, "client");
+      this.socket.emit("messageFromClient", this.userInput);
+      this.userInput = "";
+    },
+    addMessage(message, sender) {
+      this.messages.push({
+        message: message,
+        sender: sender,
+      });
     },
   },
+
   mounted() {
-    this.socket = io("http://localhost:3000");
+    this.socket = io("http://localhost:3000", {
+      withCredentials: true,
+    });
+    // listening an event from the server
+    // receiving message to client from server
+
     this.socket.on("messageFromServer", (message) => {
-      this.messageFromServer = message;
+      this.addMessage(message, "server");
     });
   },
 };
 </script>
 
 <style scoped>
-/* 
-.v-list {
-  display: flex;
-  flex-direction: column-reverse; 
-}*/
-
 .chat-container {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  width: 100%;
+  max-width: 480px;
+  height: 80vh;
+  margin: 30px auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  overflow: hidden;
 }
 
+/* Header */
+h1 {
+  margin: 0;
+  padding: 15px 20px;
+  text-align: center;
+  background: #1976d2;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+/* Message list */
 .messages {
-  height: 300px;
+  flex: 1;
+  padding: 15px;
   overflow-y: auto;
-  border: 1px solid #eee;
-  padding: 10px;
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f7f9fc;
 }
 
+/* General message bubble */
 .message {
-  margin: 10px 0;
-  padding: 8px;
-  border-radius: 5px;
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 15px;
+  font-size: 15px;
+  line-height: 1.4;
+  word-wrap: break-word;
 }
 
+/* Server bubbles (left-aligned) */
 .server-message {
-  background-color: #e3f2fd;
-  margin-right: 20%;
+  align-self: flex-start;
+  background: #e1f0ff;
+  border-top-left-radius: 5px;
 }
 
+/* Client bubbles (right-aligned) */
 .client-message {
-  background-color: #f5f5f5;
-  margin-left: 20%;
+  align-self: flex-end;
+  background: #dfffe2;
+  border-top-right-radius: 5px;
 }
 
+/* Input section */
 .input-container {
   display: flex;
   gap: 10px;
+  padding: 12px;
+  background: #fff;
+  border-top: 1px solid #ddd;
 }
 
 #messageInput {
   flex: 1;
-  padding: 8px;
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s;
 }
 
-button {
-  padding: 8px 20px;
-  background-color: #007bff;
+#messageInput:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+/* Send button */
+.send-button {
+  padding: 10px 18px;
+  background: #1976d2;
   color: white;
+  font-size: 14px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: 0.2s;
+  font-weight: 500;
 }
 
-button:hover {
-  background-color: #0056b3;
+.send-button:hover {
+  background: #0d60b3;
 }
 </style>
