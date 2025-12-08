@@ -31,8 +31,7 @@ export default {
 .main{
 position: unset;
 z-index: 1;
-background-color: blue;  
-height: 100vh;
 padding-top: 16px;
+padding-bottom: 16px;
 }
 </style>

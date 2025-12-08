@@ -1,6 +1,6 @@
 <template>
   <v-skeleton-loader   type="card" v-if="loading"></v-skeleton-loader>
-  <v-card class="mx-auto " v-else>
+  <v-card class="mx-auto test" v-else>
     <v-card-title class=" mb-0 h3">Seneste 30 dage</v-card-title>
 
     <v-list v-if="recent30DaysList.length > 0" class="pb-0">
@@ -174,17 +174,13 @@ export default {
 };
 </script>
 <style scoped>
-.margin{
-  /* margin-top:50px; */
-  position: unset;
-  margin-top: 0px;
 
-}
+
 .h3{
   color: #B3B3B3;
-  font-weight: medium;
+  font-weight: bold;
   /* background-color: aqua; */
-  /* margin: 0!important; */
+  margin: 0!important; 
   /* padding: 0!important; */
   
  
@@ -213,4 +209,9 @@ export default {
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
 }
+.test {
+  background-color: rgb(242, 242, 242);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.08);
+}
+
 </style>

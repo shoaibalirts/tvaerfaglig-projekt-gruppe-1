@@ -1,13 +1,19 @@
 <template>
   <div class="d-flex justify-space-around ga-4">
-    <v-btn :icon="mdiPencil" @click.stop="handleUpdate"></v-btn>
-    <v-btn :icon="mdiDelete" class="bg-primary" @click.stop="handleDelete"></v-btn>
+    <!-- <v-btn :icon="mdiPencil" @click.stop="handleUpdate"></v-btn> -->
+    <btn class="deleteBtn" @click.stop="handleUpdate"><img :src="deleteImg" alt=""></btn>
+    <!-- <v-btn :icon="mdiDelete" class="bg-primary" @click.stop="handleDelete"></v-btn> -->
+        <btn  class="deleteBtn" @click.stop="handleUpdate"><img :src="updateImg" alt=""></btn>
+
   </div>
 </template>
 
 <script>
 import { mdiPencil, mdiDelete } from "@mdi/js";
 import { deleteProduct, updateProduct } from "@/api.js";
+// import image from .
+import deleteImg from "@/assets/delete.png"
+import updateImg from "@/assets/edit.png"
 export default {
   props: {
     productData: {
@@ -19,6 +25,8 @@ export default {
     return {
       mdiPencil,
       mdiDelete,
+      deleteImg,
+      updateImg
     };
   },
   methods: {
@@ -55,3 +63,21 @@ export default {
   },
 };
 </script>
+<style >
+.deleteBtn{
+  background-color: transparent!important;
+  border:1px, solid rgb(222, 221, 221);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  width: 42px;
+  height: 42px;
+
+}
+.deleteBtn img{
+  width: 20px;
+    padding: 2px;
+
+}
+</style>

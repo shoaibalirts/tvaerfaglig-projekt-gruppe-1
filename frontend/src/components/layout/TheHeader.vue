@@ -77,7 +77,7 @@ padding-bottom: 0;
 h1{
   font-size:35px;}
   .v-bar-title-costum{
-    background-color:red;
+    /* background-color:red; */
       position: unset!important;
 
   }

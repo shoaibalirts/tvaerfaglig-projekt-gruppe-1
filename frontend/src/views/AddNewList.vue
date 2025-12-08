@@ -1,14 +1,20 @@
-<template>
-  <v-form id="list-form" @submit.prevent="handleSaveList">
-    <v-btn size="large" @click="handleClickBackBtn">
-      <v-icon :icon="mdiChevronLeft"></v-icon>Tilbage</v-btn
-    >
 
+<template>
+<the-header/>
+<div class="wrapper">
+ <v-form id="list-form" @submit.prevent="handleSaveList">
+    
+    <div>
+
+    </div>
+<label for="name-input"></label>
     <v-text-field
       id="name-input"
       placeholder="Skriv navn"
       v-model="listName"
       :rules="validationRules"
+       variant="solo"
+  bg-color="white"
     />
 
     <v-list id="selected-products-list">
@@ -18,8 +24,8 @@
         }}</v-list-item-title>
         <v-list-item-subtitle
           >{{ productsList.find((prod) => prod.value === product).co2_per_kg }} kg
-          CO₂</v-list-item-subtitle
-        >
+          CO₂</v-list-item-subtitle>          <v-btn @click="deleteFromList(product)" class="delete-v-Btn" ><img  class="delete" :src="DeleteImage" alt=""></v-btn>
+
       </v-list-item>
     </v-list>
 
@@ -29,6 +35,8 @@
       label="Vælg produkt"
       v-model="selectedItem"
       @update:model-value="setShoppingListData"
+       variant="solo"
+  bg-color="white"
     >
       <template v-slot:item="{ props, item }">
         <v-list-item v-bind="props" title="">
@@ -38,14 +46,24 @@
       </template>
     </v-combobox>
 
-    <v-btn type="submit">Gem</v-btn>
+    <v-btn class="submit-btn" type="submit">Gem</v-btn>
   </v-form>
+
+</div>
+<v-btn class="backBtn" size="small" @click="handleClickBackBtn">
+      <v-icon :icon="mdiChevronLeft"></v-icon>Tilbage</v-btn
+    >
+ <the-footer/>
 </template>
 
 <script>
 import productService from "../services/productService";
 import { mdiChevronLeft } from "@mdi/js";
+import TheHeader from '../components/layout/TheHeader.vue';
+import TheFooter from '../components/layout/TheFooter.vue';
+import DeleteImage from '@/assets/delete.png'
 export default {
+  components: { TheHeader, TheFooter },
   data() {
     return {
       productsList: [],
@@ -54,6 +72,7 @@ export default {
       listName: "",
       validationRules: [(value) => !!value || "Liste navn er pakrævet."],
       mdiChevronLeft,
+      DeleteImage
     };
   },
   methods: {
@@ -61,6 +80,11 @@ export default {
       if (this.shoppingListProducts.length === 0) this.$router.push({ path: "/" });
       else this.handleSaveList();
     },
+   deleteFromList(productValue) {
+    this.shoppingListProducts = this.shoppingListProducts.filter(
+      item => item !== productValue
+    );
+  },
     setShoppingListData(data) {
       this.shoppingListProducts.push(data.value);
     },
@@ -98,22 +122,59 @@ export default {
 
 <style>
 #list-form {
-  background-color: white;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  padding: 3vh 5vw;
+  position: unset;
+  width: 90vw;
+  
+  /* padding: 3vh 5vw; */
+  margin: 0px;
+    margin-top: 32px;
+
+  padding:0px!important;
+  display: flex;
+  flex-direction: column;
+
 }
 
 #name-input {
-  margin-bottom: 1vh;
+  margin-bottom: ;
+}
+.name-input{
 }
 
 #selected-products-list {
   max-height: 50vh;
   overflow: auto;
-  margin-bottom: 3vh;
+}
+.wrapper{
+  display:flex;
+  flex-direction: column;
+  justify-content: center!important;;
+  align-items: center!important;
+overscroll-behavior-y: scroll;}
+.submit-btn{
+  background-color: #096124;
+  color: white;
+  margin-bottom: 16px;
+}
+.submit-btn:hover{
+  opacity: 50%;
+}
+.backBtn{
+  width: 150px;
+}
+.delete{
+  padding: 8px;
+  background-color: transparent!important;
+width: 40px;
+
+}
+.delete-v-Btn{
+  background-color: transparent!important;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+margin-bottom: 8px;
+  
 }
 </style>

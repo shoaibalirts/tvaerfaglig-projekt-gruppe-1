@@ -1,6 +1,6 @@
 <template>
 <div class="list-wrapper m-0 p-0">  
-  <div class="d-flex align-center justify-end status ">
+  <div class="d-flex align-center justify-end c02-colors ">
                   <v-icon
                    class="p-0"
                     :color="getCo2LevelColor(listData.totalCO2)"
@@ -12,7 +12,6 @@
                     :class="`text-${getCo2LevelColor(listData.totalCO2)}`"
                     >{{ getCo2LevelText(listData.totalCO2) }}</span
                   >
-
             </div>
   <v-list-item class="rounded border m-0 p-0 styled-item "
     :to="{ name: 'ListDetails', params: { id: listData.id } }"> 
@@ -24,12 +23,14 @@
 <v-list-item-subtitle class="listCreateDate">{{ listData.listCreatedDate }}</v-list-item-subtitle> -->
       <!-- Gamle kode slettet fordi der er indbygget vuetify styling som ikke stemmer overens med vores mockupt -->
 
-
-
-
+<div>
     <div class="listName">{{ listData.listName }}</div>
   <span class="c02level">CO<sub>2</sub>: {{ listData.totalCO2.toFixed(2) }} kg</span>
   <div class="listCreateDate">{{ listData.listCreatedDate }}</div>
+
+</div>
+
+
 
     <template v-slot:append>
       <div class="d-flex flex-column align-end">
@@ -74,6 +75,7 @@ export default {
  padding:16px;
  justify-content: baseline;
  box-shadow: none;
+ margin-bottom: 8px;
 }  
 .c02level{
   color: #096123;
@@ -102,9 +104,13 @@ export default {
   opacity: 50%;
   margin-top: 12px!important;
 }
-.status{
-  position: !important;
+.c02-colors{
+  position: relative!important;
   z-index: 0;
+  height: 16px;
+  width: ;
+  margin-top: 8px;
+  margin-left: 8px;
 }
 
 

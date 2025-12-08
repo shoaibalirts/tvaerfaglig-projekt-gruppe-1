@@ -19,7 +19,7 @@ const router = createRouter({
       component: HomePage,
       meta: {
         headerDesc:'Dine',
-       headerTitle:'indkøbslister',
+       headerTitle:'Indkøbslister',
 
       }
     },
@@ -51,8 +51,8 @@ meta:{
       path: "/addproduct",
       component: AddProduct,
        meta:{
-        headerDesc:'Dine',
-        headerTitle: 'List'
+        headerDesc:'Tilføj ',
+        headerTitle: 'Produkter'
       }
     },
 
