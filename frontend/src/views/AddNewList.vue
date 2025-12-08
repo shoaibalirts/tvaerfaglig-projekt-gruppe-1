@@ -100,6 +100,7 @@ export default {
       productService.saveListData(list);
 
       this.$router.push({ path: "/" });
+      // alert("liste er lavet");
     },
   },
   async mounted() {
