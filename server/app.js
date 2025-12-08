@@ -5,6 +5,8 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import requireDebugCookie from "../server/middleware/requireDebugCookie.js";
 import authenticateToken from "../server/middleware/authenticateToken.js";
+import cookie from "cookie";
+import jwt from "jsonwebtoken";
 
 ///////// For chat
 import { createServer } from "http";
@@ -35,22 +37,39 @@ const app = express();
 // For chat merging two servers
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  // io is the server from socket.io
   cors: {
     origin: "http://localhost:5173",
     credentials: true,
   },
 });
 io.on("connection", (socket) => {
+  const cookies = cookie.parse(socket.handshake.headers.cookie || "");
+  const token = cookies.token;
+  console.log("RAW COOKIE HEADER:", socket.handshake.headers.cookie);
+
+  if (!token) {
+    console.log("As there is no token so i have to disconnect");
+    return socket.disconnect();
+  }
   console.log(`A new user connected: ${socket.id}`);
-  // Example of a chat event listener
-  // socket.on("sendMessage", (messageData) => {
-  //   // 1. Save messageData to MySQL (e.g., using a controller function)
-  //   // 2. Broadcast the message to all other connected clients
-  //   io.emit("receiveMessage", "messageData to soufian");
-  // });
-  socket.emit("messageFromServer", "Support: How can I help you?");
-  socket.on("messageFromClient", async (message) => {
+  let user;
+  try {
+    console.log("try block");
+
+    user = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (error) {
+    console.log("Invalid or missing cookie token");
+    console.log(error.message);
+
+    socket.disconnect();
+  }
+
+  socket.user = user;
+
+  console.log(`User connected: ${user.user_name}`);
+  // it is not working
+  socket.emit("messageFromServer", `Hi ${socket.user.user_name}, Sure1`);
+  socket.on("messageFromClient", (message) => {
     console.log("message received from client: ", message);
     // this message will be saved in MySql user table
     // user_message

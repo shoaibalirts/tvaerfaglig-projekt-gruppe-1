@@ -199,7 +199,6 @@ export const signin = async (req, res, next) => {
         return res.status(404).json("Incorrect password.");
       }
 
-      // const token = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET);
       const token = jwt.sign(
         { id: foundUser.user_id, user_name: foundUser.user_name },
         process.env.JWT_SECRET,
@@ -215,7 +214,9 @@ export const signin = async (req, res, next) => {
         secure: false,
         domain: "localhost",
         // maxAge: 7 * 24 * 60 * 60 * 1000,
-        path: "/",
+        expiresIn: "30d",
+
+        // path: "/",
       });
 
       return res
