@@ -1,7 +1,7 @@
 <template>
   <main>
     <admin-header />
-    <v-sheet class="mx-auto" width="300">
+    <v-sheet class="mx-auto background" width="300">
       <v-form @submit.prevent="register">
         <v-text-field v-model="Username" :rules="rules" label="Username"></v-text-field>
         <v-text-field
@@ -51,5 +51,10 @@ export default {
 label {
   font-size: 12px;
   color: gray;
+}
+.background{
+  background-image: url('./assets/background.png');
+background-size: cover;
+background-repeat: no-repeat;
 }
 </style>
