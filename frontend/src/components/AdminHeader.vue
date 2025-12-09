@@ -14,7 +14,7 @@ export default {
 <style scoped>
 header {
   height: 200px;
-  background: #dd2f2f;
+  background: #096123;
   display: flex;
   flex-direction: column;
   justify-content: center;

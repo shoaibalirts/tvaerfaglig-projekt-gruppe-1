@@ -1,29 +1,36 @@
 <template>
-  <v-skeleton-loader type="card" v-if="loading"></v-skeleton-loader>
-  <v-card class="mx-auto" v-else>
-    <v-card-title class="text-center bg-primary rounded-b-circle">Seneste 30 dage</v-card-title>
+  <v-skeleton-loader   type="card" v-if="loading"></v-skeleton-loader>
+  <v-card class="mx-auto test" v-else>
+    <v-card-title class=" mb-0 h3">Seneste 30 dage</v-card-title>
 
     <v-list v-if="recent30DaysList.length > 0" class="pb-0">
-      <div v-for="(list, index) in recent30DaysList" :key="`recent-${index}`">
-        <list-item :listData="list" />
+      <div class="div-box" v-for="(list, index) in recent30DaysList" :key="`recent-${index}`">
+        <!-- <list-item :listData="list" /> -->
+<list-item
+          :listData="list"
+          @product-deleted="handleProductDeleted"
+        />
         <v-divider></v-divider>
       </div>
     </v-list>
-    <v-card-text v-else class="text-center text-medium-emphasis"
+    <!-- <v-card-text v-else class="text-center text-medium-emphasis"
       >Ingen lister i de sidste 30 dage.</v-card-text
-    >
-
-    <v-card-title class="text-center bg-primary rounded-b-circle">Sidste måned</v-card-title>
-
-    <v-list v-if="previousMonthList.length > 0" class="pb-0">
-      <div v-for="(list, index) in previousMonthList" :key="`prev-month-${index}`">
-        <list-item :listData="list" />
-        <v-divider></v-divider>
-      </div>
-    </v-list>
-    <v-card-text v-else class="text-center text-medium-emphasis"
+    > --> <v-card-text v-else class="text-center text-medium-emphasis"
       >Ingen lister fra sidste måned.</v-card-text
     >
+
+        <v-card-title class="text-left  h3">Sidste Måned</v-card-title>
+
+
+    <v-list v-if="previousMonthList.length > 0" class="pb-0">
+      <div class="div-box" v-for="(list, index) in previousMonthList" :key="`prev-month-${index}`">
+<list-item
+          :listData="list"
+          @product-deleted="handleProductDeleted"
+        />        <v-divider></v-divider>
+      </div>
+    </v-list>
+   
   </v-card>
 </template>
 
@@ -63,7 +70,12 @@ export default {
     },
     openDialogComponent() {
       this.isDeletedPressed = true;
+    }, 
+    handleProductDeleted(id) {
+      // Fjern fra UI
+      this.shoppingList = this.shoppingList.filter(list => list.id !== id);
     },
+
     getCo2LevelColor,
     getCo2LevelText,
   },
@@ -172,3 +184,45 @@ export default {
   },
 };
 </script>
+<style scoped>
+
+
+.h3{
+  color: #B3B3B3;
+  font-weight: bold;
+  /* background-color: aqua; */
+  margin: 0!important; 
+  /* padding: 0!important; */
+  
+ 
+}
+.div-box{
+  /* background-color:red!important; */
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  padding-top: 0;
+
+  /* padding-top:0px;
+  margin-top:0px!important;
+  padding-top:0px;
+  padding: 8px; */
+
+}
+.v-list {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.v-card-title {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+.test {
+  background-color: rgb(242, 242, 242);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.08);
+}
+
+</style>
