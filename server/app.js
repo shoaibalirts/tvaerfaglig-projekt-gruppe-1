@@ -68,7 +68,10 @@ io.on("connection", (socket) => {
 
   console.log(`User connected: ${user.user_name}`);
   // it is not working
-  socket.emit("messageFromServer", `Hi ${socket.user.user_name}, Sure1`);
+  socket.emit(
+    "messageFromServer",
+    `${socket.user.user_name}: What are you saying`
+  );
   socket.on("messageFromClient", (message) => {
     console.log("message received from client: ", message);
     // this message will be saved in MySql user table

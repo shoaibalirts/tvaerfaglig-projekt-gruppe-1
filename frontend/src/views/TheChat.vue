@@ -1,6 +1,6 @@
 <template>
   <div class="chat-container">
-    <h1>Chat Room</h1>
+    <tool-bar toolbarTitle="Chat Room" />
     <div class="messages" id="messageArea">
       <div
         v-for="(msg, index) in messages"
@@ -24,6 +24,7 @@
 </template>
 <script>
 import { io } from "socket.io-client";
+import ToolBar from "@/components/layout/ToolBar.vue";
 
 const socket = io("http://localhost:3000", {
   withCredentials: true,
@@ -39,6 +40,9 @@ socket.on("messageFromServerReceivedFromClient", (message) => {
 });
 
 export default {
+  components: {
+    ToolBar,
+  },
   data() {
     return {
       userInput: "",
@@ -86,11 +90,12 @@ export default {
   width: 100%;
   max-width: 480px;
   height: 80vh;
-  margin: 30px auto;
+  margin: 0 auto;
+
   padding: 0;
   display: flex;
   flex-direction: column;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   background: #ffffff;
   overflow: hidden;
