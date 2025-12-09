@@ -195,7 +195,9 @@ export const signin = async (req, res, next) => {
         return res.status(404).json("Incorrect password.");
       }
 
-      const token = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET);
+      const token = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+      });
 
       res.cookie("token", token, {
         httpOnly: true,
