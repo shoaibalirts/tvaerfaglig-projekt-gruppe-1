@@ -31,13 +31,14 @@
 </div>
 
 
+  <template v-slot:append>
+        <update-delete
+          :productData="listData"
+          @product-deleted="forwardDelete"
+        />
+      </template>
 
-    <template v-slot:append>
-      <div class="d-flex flex-column align-end">
-        
-        <update-delete />
-      </div>
-    </template>
+   
   </v-list-item>
   </div>
 </template>
@@ -54,12 +55,17 @@ export default {
       mdiCircleMedium,
     };
   },
-  setup() {
-    return {
-      getCo2LevelColor,
-      getCo2LevelText,
-    };
-  },
+  methods:{
+ forwardDelete(id) {
+      this.$emit("product-deleted", id);
+    },
+},
+setup() {
+  return {
+    getCo2LevelColor,
+    getCo2LevelText,
+  };
+},
   components: {
     UpdateDelete,
   },

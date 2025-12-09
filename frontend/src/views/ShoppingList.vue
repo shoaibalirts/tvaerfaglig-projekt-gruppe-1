@@ -5,7 +5,11 @@
 
     <v-list v-if="recent30DaysList.length > 0" class="pb-0">
       <div class="div-box" v-for="(list, index) in recent30DaysList" :key="`recent-${index}`">
-        <list-item :listData="list" />
+        <!-- <list-item :listData="list" /> -->
+<list-item
+          :listData="list"
+          @product-deleted="handleProductDeleted"
+        />
         <v-divider></v-divider>
       </div>
     </v-list>
@@ -20,8 +24,10 @@
 
     <v-list v-if="previousMonthList.length > 0" class="pb-0">
       <div class="div-box" v-for="(list, index) in previousMonthList" :key="`prev-month-${index}`">
-        <list-item :listData="list" />
-        <v-divider></v-divider>
+<list-item
+          :listData="list"
+          @product-deleted="handleProductDeleted"
+        />        <v-divider></v-divider>
       </div>
     </v-list>
    
@@ -64,7 +70,12 @@ export default {
     },
     openDialogComponent() {
       this.isDeletedPressed = true;
+    }, 
+    handleProductDeleted(id) {
+      // Fjern fra UI
+      this.shoppingList = this.shoppingList.filter(list => list.id !== id);
     },
+
     getCo2LevelColor,
     getCo2LevelText,
   },

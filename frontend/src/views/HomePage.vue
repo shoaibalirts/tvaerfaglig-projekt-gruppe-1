@@ -27,13 +27,13 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 .main{
 position: unset;
 z-index: 1;
 padding-top: 16px;
 padding-bottom: 16px;
-background-image: url('./assets/background.png');
+background-image: url('@/assets/background.png');
 background-size: cover;
 background-repeat: no-repeat;
 }
