@@ -8,7 +8,7 @@
         <!-- <list-item :listData="list" /> -->
 <list-item
           :listData="list"
-          @product-deleted="handleProductDeleted"
+          @list-deleted="handleProductDeleted"
         />
         <v-divider></v-divider>
       </div>
@@ -26,7 +26,7 @@
       <div class="div-box" v-for="(list, index) in previousMonthList" :key="`prev-month-${index}`">
 <list-item
           :listData="list"
-          @product-deleted="handleProductDeleted"
+          @list-deleted="handleProductDeleted"
         />        <v-divider></v-divider>
       </div>
     </v-list>

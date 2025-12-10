@@ -34,7 +34,7 @@
   <template v-slot:append>
         <update-delete
           :productData="listData"
-          @product-deleted="forwardDelete"
+          @list-deleted="forwardDelete"
         />
       </template>
 
@@ -57,7 +57,7 @@ export default {
   },
   methods:{
  forwardDelete(id) {
-      this.$emit("product-deleted", id);
+      this.$emit("list-deleted", id);
     },
 },
 setup() {

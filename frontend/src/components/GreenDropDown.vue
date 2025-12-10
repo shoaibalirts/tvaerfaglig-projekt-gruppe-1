@@ -21,7 +21,7 @@ variant="solo-filled"
 import { ref, onMounted } from "vue";
 import { db } from "@/utility/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
-import {u}
+// import {u}
 
 // modtag produktets id som prop
 const props = defineProps({
