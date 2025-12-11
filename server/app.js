@@ -38,7 +38,9 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
+    // origin: "http://localhost:5173",
+        origin: process.env.FRONTEND_URL, // "*" under udvikling
+
     credentials: true,
   },
 });
@@ -87,12 +89,19 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     credentials: true,
+//   })
+// );
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL, // "*" under udvikling
     credentials: true,
   })
 );
+
 
 app.use(cookieParser());
 // Body Parser, already available in express
