@@ -37,8 +37,11 @@
           :productData="listData"
           @list-deleted="forwardDelete"
         /> -->
-        <UpdateDelete :listData="item" :productData="item" @list-deleted="onDeleted" />
-
+<UpdateDelete 
+  :listData="listData" 
+  :productData="listData" 
+  @list-deleted="forwardDelete" 
+/>
       </template>
 
    

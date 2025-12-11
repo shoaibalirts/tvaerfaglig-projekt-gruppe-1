@@ -69,10 +69,15 @@ export default {
     openDialogComponent() {
       this.isDeletedPressed = true;
     }, 
-    handleProductDeleted(id) {
-      // Fjern fra UI
-      this.shoppingList = this.shoppingList.filter(list => list.id !== id);
-    },
+    // handleProductDeleted(id) {
+    //   // Fjern fra UI
+    //   this.shoppingList = this.shoppingList.filter(list => list.id !== id);
+    // },
+
+handleProductDeleted(id) {
+  console.log("Deleting ID:", id);
+  this.shoppingList = this.shoppingList.filter(list => list.id !== id);
+}
 
     getCo2LevelColor,
     getCo2LevelText,
