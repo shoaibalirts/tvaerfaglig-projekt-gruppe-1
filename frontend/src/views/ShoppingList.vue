@@ -6,10 +6,8 @@
     <v-list v-if="recent30DaysList.length > 0" class="pb-0">
       <div class="div-box" v-for="(list, index) in recent30DaysList" :key="`recent-${index}`">
         <!-- <list-item :listData="list" /> -->
-<list-item
-          :listData="list"
-          @list-deleted="handleProductDeleted"
-        />
+<list-item :listData="list"
+          @list-deleted="handleProductDeleted"   />
         <v-divider></v-divider>
       </div>
     </v-list>

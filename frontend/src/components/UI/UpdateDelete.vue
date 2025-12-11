@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-space-around ga-4">
     <!-- <v-btn :icon="mdiPencil" @click.stop="handleUpdate"></v-btn> -->
-  <button class="deleteBtn" @click.stop="handleDelete"><img :src="deleteImg" alt=""></button>
+  <button class="deleteBtn" @click.stop="handleDelete()"><img :src="deleteImg" alt=""></button>
     <!-- <v-btn :icon="mdiDelete" class="bg-primary" @click.stop="handleDelete"></v-btn> -->
         <button  class="deleteBtn" @click.stop="handleUpdate"><img :src="updateImg" alt=""></button>
 
@@ -36,7 +36,7 @@ export default {
     async handleUpdate() {
     this.$router.push({
       path: "/updateproduct",
-      query: { id: this.productData.id}
+      query: { id: this.productData.Listid}
     });
     },
   async handleDelete() {
