@@ -1,5 +1,7 @@
-CREATE DATABASE vue_product_page;
-use vue_product_page;
+-- CREATE DATABASE vue_product_page;
+-- use vue_product_page;
+CREATE DATABASE sofieroshni_dk_db;
+use sofieroshni_dk_db;
 show tables;
 CREATE TABLE product (prod_id INTEGER, prod_name VARCHAR(50),
        prod_co2 INTEGER);
@@ -64,7 +66,10 @@ SELECT prod_id, prod_name, prod_co2, curr_date FROM product WHERE prod_id=2;
 TRUNCATE TABLE product;
 
 -- 1. Change the authentication plugin for the user
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '9602';
+-- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '9602';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'R4FA35tEDcgk2xe6fGbd 
+';
+
 
 -- 2. Flush privileges for the change to take effect immediately
 FLUSH PRIVILEGES;
