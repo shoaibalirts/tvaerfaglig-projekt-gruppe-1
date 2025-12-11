@@ -77,7 +77,7 @@ export default {
 handleProductDeleted(id) {
   console.log("Deleting ID:", id);
   this.shoppingList = this.shoppingList.filter(list => list.id !== id);
-}
+},
 
     getCo2LevelColor,
     getCo2LevelText,
