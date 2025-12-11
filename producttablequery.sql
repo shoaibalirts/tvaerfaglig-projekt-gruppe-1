@@ -1,7 +1,9 @@
 -- CREATE DATABASE vue_product_page;
 -- use vue_product_page;
-CREATE DATABASE sofieroshni_dk_db;
-use sofieroshni_dk_db;
+-- CREATE DATABASE sofieroshni_dk_db;
+-- use sofieroshni_dk_db;
+CREATE TABLE IF NOT EXISTS ...
+
 show tables;
 CREATE TABLE product (prod_id INTEGER, prod_name VARCHAR(50),
        prod_co2 INTEGER);
