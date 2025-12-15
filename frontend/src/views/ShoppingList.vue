@@ -1,7 +1,7 @@
 <template>
   <v-skeleton-loader type="card" v-if="loading"></v-skeleton-loader>
   <v-card class="mx-auto test" v-else>
-    <v-card-title class="mb-0 h3">Seneste 30 dage</v-card-title>
+    <v-card-title class="mb-0 h3 text-green-darken-4 text-center">Seneste 30 dage</v-card-title>
 
     <v-list v-if="recent30DaysList.length > 0" class="pb-0">
       <div class="div-box" v-for="(list, index) in recent30DaysList" :key="`recent-${index}`">
@@ -17,7 +17,7 @@
       >Ingen lister fra sidste måned.</v-card-text
     >
 
-    <v-card-title class="text-left h3">Sidste Måned</v-card-title>
+    <v-card-title class="text-left h3 text-green-darken-4 text-center">Sidste Måned</v-card-title>
 
     <v-list v-if="previousMonthList.length > 0" class="pb-0">
       <div class="div-box" v-for="(list, index) in previousMonthList" :key="`prev-month-${index}`">
