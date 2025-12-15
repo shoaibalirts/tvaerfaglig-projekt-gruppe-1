@@ -16,7 +16,7 @@
     <!-- <v-list-item class="rounded border m-0 p-0 styled-item "
     :to="{ name: 'ListDetails', params: { id: listData.id } }">  -->
 
-    <v-list-item class="rounded border m-0 p-0 styled-item" @click="goToListDetails">
+    <v-list-item tabindex="0" class="rounded border m-0 p-0 styled-item" @click="goToListDetails">
       <!-- Gamle kode slettet fordi der er indbygget vuetify styling som ikke stemmer overens med vores mockupt -->
       <!-- <v-list-item-title class="font-weight-bold listName">{{ listData.listName }}</v-list-item-title>
     <span class="text-caption c02level">CO<sub>2</sub>: {{ listData.totalCO2.toFixed(2) }} kg</span>
