@@ -1,19 +1,23 @@
 <template>
   <!-- // template fra vuetify -->
   <div>
-    <h3 v-if="alternatives.length">Vælg grønt alternativ</h3>
+    <label for="alternatives" v-if="alternatives.length">Vælg grønt alternativ</label>
     <v-select
+      id="alternatives"
       bg-color="dark-green"
       clearable
       chips
-      label="Vælg alternativ"
       :items="alternatives"
       item-title="prodName"
       item-value="prodName"
       v-if="alternatives.length"
       variant="solo-filled"
+      @update:model-value="snackbar = true"
     >
     </v-select>
+    <v-snackbar color="green" v-model="snackbar" absolute="true">
+      Tillykke, du har reduceret CO2 af din liste!
+    </v-snackbar>
   </div>
 </template>
 <script setup>
@@ -29,6 +33,7 @@ const props = defineProps({
   },
 });
 
+const snackbar = ref(false);
 const alternatives = ref([]);
 
 onMounted(async () => {
@@ -50,7 +55,7 @@ onMounted(async () => {
 });
 </script>
 <style scoped>
-h3 {
+label {
   font-size: small;
   font-weight: 100;
   color: green;
