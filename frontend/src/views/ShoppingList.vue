@@ -1,34 +1,29 @@
 <template>
-  <v-skeleton-loader   type="card" v-if="loading"></v-skeleton-loader>
+  <v-skeleton-loader type="card" v-if="loading"></v-skeleton-loader>
   <v-card class="mx-auto test" v-else>
-    <v-card-title class=" mb-0 h3">Seneste 30 dage</v-card-title>
+    <v-card-title class="mb-0 h3">Seneste 30 dage</v-card-title>
 
     <v-list v-if="recent30DaysList.length > 0" class="pb-0">
       <div class="div-box" v-for="(list, index) in recent30DaysList" :key="`recent-${index}`">
         <!-- <list-item :listData="list" /> -->
-<list-item :listData="list"
-          @list-deleted="handleProductDeleted"   />
+        <list-item :listData="list" @list-deleted="handleProductDeleted" />
         <v-divider></v-divider>
       </div>
     </v-list>
     <!-- <v-card-text v-else class="text-center text-medium-emphasis"
       >Ingen lister i de sidste 30 dage.</v-card-text
-    > --> <v-card-text v-else class="text-center text-medium-emphasis"
+    > -->
+    <v-card-text v-else class="text-center text-medium-emphasis"
       >Ingen lister fra sidste måned.</v-card-text
     >
 
-        <v-card-title class="text-left  h3">Sidste Måned</v-card-title>
-
+    <v-card-title class="text-left h3">Sidste Måned</v-card-title>
 
     <v-list v-if="previousMonthList.length > 0" class="pb-0">
       <div class="div-box" v-for="(list, index) in previousMonthList" :key="`prev-month-${index}`">
-<list-item
-          :listData="list"
-          @list-deleted="handleProductDeleted"
-        />        <v-divider></v-divider>
+        <list-item :listData="list" @list-deleted="handleProductDeleted" /> <v-divider></v-divider>
       </div>
     </v-list>
-   
   </v-card>
 </template>
 
@@ -68,16 +63,16 @@ export default {
     },
     openDialogComponent() {
       this.isDeletedPressed = true;
-    }, 
+    },
     // handleProductDeleted(id) {
     //   // Fjern fra UI
     //   this.shoppingList = this.shoppingList.filter(list => list.id !== id);
     // },
 
-handleProductDeleted(id) {
-  console.log("Deleting ID:", id);
-  this.shoppingList = this.shoppingList.filter(list => list.id !== id);
-}
+    handleProductDeleted(id) {
+      console.log("Deleting ID:", id);
+      this.shoppingList = this.shoppingList.filter((list) => list.id !== id);
+    },
 
     getCo2LevelColor,
     getCo2LevelText,
@@ -188,18 +183,14 @@ handleProductDeleted(id) {
 };
 </script>
 <style scoped>
-
-
-.h3{
-  color: #B3B3B3;
+.h3 {
+  color: #b3b3b3;
   font-weight: bold;
   /* background-color: aqua; */
-  margin: 0!important; 
+  margin: 0 !important;
   /* padding: 0!important; */
-  
- 
 }
-.div-box{
+.div-box {
   /* background-color:red!important; */
   justify-content: center;
   align-items: center;
@@ -212,7 +203,6 @@ handleProductDeleted(id) {
   margin-top:0px!important;
   padding-top:0px;
   padding: 8px; */
-
 }
 .v-list {
   padding-top: 0 !important;
@@ -227,5 +217,4 @@ handleProductDeleted(id) {
   background-color: rgb(242, 242, 242);
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.08);
 }
-
 </style>
