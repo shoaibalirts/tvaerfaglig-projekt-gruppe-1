@@ -105,9 +105,8 @@ export default {
   line-height: 1;
 }
 .listCreateDate {
-  font-size: 8px;
+  font-size: 12px;
   color: #096124;
-  opacity: 50%;
   margin-top: 12px !important;
 }
 .c02-colors {
