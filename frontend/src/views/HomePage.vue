@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <the-header></the-header>
-    <v-main class="mt-0">
+    <v-main class="main" >
       <ShoppingList />
       <PlusButton />
     </v-main>
@@ -27,3 +27,14 @@ export default {
   },
 };
 </script>
+<style>
+.main{
+position: unset;
+z-index: 1;
+padding-top: 16px;
+padding-bottom: 16px;
+background-image: url('@/assets/background.png');
+background-size: cover;
+background-repeat: no-repeat;
+}
+</style>

@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 connection.connect();
+
 // @desc      Get all products
 // @route     Get /api/dinprodukter
 // @access    Public
@@ -172,12 +173,12 @@ export const createUser = async (req, res) => {
 // @access    Private, meaning after login we have to send a token
 export const signin = async (req, res, next) => {
   try {
-    const userName = req.body.user_name;
-    const userPassword = req.body.user_password;
-
+    // const userName = req.body.user_name;
+    // const userPassword = req.body.user_password;
+    const { user_name, user_password } = req.body;
     const getUserQuery = "SELECT * FROM user WHERE user_name = ?";
 
-    connection.query(getUserQuery, userName, async function (error, results) {
+    connection.query(getUserQuery, user_name, async function (error, results) {
       if (error) return res.status(404).json("User not found.");
 
       if (results.length === 0) {
@@ -185,9 +186,12 @@ export const signin = async (req, res, next) => {
       }
 
       const foundUser = results[0];
+      console.log(foundUser); // user_id:10, user_name:'fatimaali', user_password:'$2b$...', user_role_name:''admin,
 
       const isPasswordValid = await bcrypt.compare(
-        userPassword,
+        // userPassword,
+        // foundUser.user_password
+        user_password,
         foundUser.user_password
       );
 
@@ -195,18 +199,25 @@ export const signin = async (req, res, next) => {
         return res.status(404).json("Incorrect password.");
       }
 
-      const token = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: foundUser.user_id, user_name: foundUser.user_name },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+      console.log("New token: ");
+
+      console.log(token);
 
       res.cookie("token", token, {
-        httpOnly: true,
+        httpOnly: false,
         sameSite: "lax", // allow cross-site
         secure: false,
+        domain: "localhost",
+        // maxAge: 7 * 24 * 60 * 60 * 1000,
+        expiresIn: "30d",
+
+        // path: "/",
       });
-      // res.cookie("token_debug", token, {
-      //   httpOnly: true,
-      //   sameSite: "none",
-      //   secure: false,
-      // });
 
       return res
         .status(201)
@@ -215,4 +226,47 @@ export const signin = async (req, res, next) => {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
+};
+
+// @desc      Create signout controller
+// @route     POST /api/dinprodukter
+// @access    Private, meaning after login we have to send a token
+
+export const signout = async (req, res, next) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+    expires: new Date(0), // expires instantly
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "Logged out successfully",
+  });
+};
+
+// @desc      Get all messages from client
+// @route     Get /api/dinprodukter/chat
+// @access    Public
+export const getMessagesFromClient = async (req, res, next) => {
+  // reading all products from MySql product table
+  let query = `
+                SELECT u.user_id, u.user_name, u.user_role_name, m.msg_id, m.the_user_message 
+                FROM user u 
+	                LEFT JOIN message m
+                  ON (u.user_id = m.user_id)
+                  WHERE u.user_id=5
+              `;
+  connection.query(query, function (error, results, fields) {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    // console.log("------------------------");
+    // console.log("All Products from MySql product table");
+    // console.log(results);
+    // console.log("------------------------");
+
+    res.json(results);
+  });
 };

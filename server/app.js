@@ -5,6 +5,8 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import requireDebugCookie from "../server/middleware/requireDebugCookie.js";
 import authenticateToken from "../server/middleware/authenticateToken.js";
+import cookie from "cookie";
+import jwt from "jsonwebtoken";
 
 ///////// For chat
 import { createServer } from "http";
@@ -20,7 +22,9 @@ import {
   updateProduct,
   deleteProduct,
   signin,
+  signout,
   createUser,
+  getMessagesFromClient,
 } from "../server/controllers/dinProdukter.js";
 // Get current file's directory
 const __filename = fileURLToPath(import.meta.url);
@@ -33,27 +37,47 @@ const app = express();
 // For chat merging two servers
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  // io is the server from socket.io
   cors: {
     origin: "http://localhost:5173",
-    credential: true,
+    credentials: true,
   },
 });
-io.on("connect", (socket) => {
+io.on("connection", (socket) => {
+  const cookies = cookie.parse(socket.handshake.headers.cookie || "");
+  const token = cookies.token;
+  console.log("RAW COOKIE HEADER:", socket.handshake.headers.cookie);
+
+  if (!token) {
+    console.log("As there is no token so i have to disconnect");
+    return socket.disconnect();
+  }
   console.log(`A new user connected: ${socket.id}`);
-  // Example of a chat event listener
-  // socket.on("sendMessage", (messageData) => {
-  //   // 1. Save messageData to MySQL (e.g., using a controller function)
-  //   // 2. Broadcast the message to all other connected clients
-  //   io.emit("receiveMessage", "messageData to soufian");
-  // });
-  socket.emit("messageFromServer", {
-    msg: "Hello from the nodejs server",
-    id: socket.id,
-  });
+  let user;
+  try {
+    console.log("try block");
+
+    user = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (error) {
+    console.log("Invalid or missing cookie token");
+    console.log(error.message);
+
+    socket.disconnect();
+  }
+
+  socket.user = user;
+
+  console.log(`User connected: ${user.user_name}`);
+  // it is not working
+  socket.emit(
+    "messageFromServer",
+    `${socket.user.user_name}: What are you saying`
+  );
   socket.on("messageFromClient", (message) => {
-    console.log("Message from client: ", message.msg);
+    console.log("message received from client: ", message);
+    // this message will be saved in MySql user table
+    // user_message
   });
+
   socket.on("disconnect", () => {
     console.log(`The user disconnected who had id: ${socket.id}`);
   });
@@ -77,6 +101,7 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 const router = express.Router();
 router.route("/signin").post(authenticateToken, signin);
+router.route("/signout").post(signout);
 router.route("/signup").post(createUser);
 
 app.use("/api/dinprodukter", authenticateToken);
@@ -86,6 +111,7 @@ router
   .route("/")
   .get(getAllProducts) // reading all products from MySql product table
   .post(createProduct);
+// router.route("/chat").get(getMessagesFromClient);
 router.route("/createproduct").post(createProduct); // creating a new product by loggedin user
 
 router

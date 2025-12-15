@@ -26,7 +26,6 @@
 import LoginBtnForm from "@/components/UI/LoginBtnForm.vue";
 import { login } from "@/api";
 import AdminHeader from "../components/AdminHeader.vue";
-import Cookies from "js-cookie";
 export default {
   name: "LoginForm",
   components: {

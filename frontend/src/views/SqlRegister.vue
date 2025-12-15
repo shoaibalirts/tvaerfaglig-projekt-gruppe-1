@@ -1,22 +1,23 @@
 <template>
-  <main>
+  <main class="background-register">
     <admin-header />
-    <v-sheet class="mx-auto" width="300">
-      <v-form @submit.prevent="register">
+    <v-sheet class="mx-auto background" width="300">
+      <v-form class="form-register" @submit.prevent="register">
         <v-text-field
+          class="input-field"
           v-model="Username"
           :rules="rules"
           label="Username"
-          class="text-black"
         ></v-text-field>
         <v-text-field
+          style="backgroundcolor: white; marign: 0px; padding: 0px"
+          class="input-field text-black"
           v-model="UserPassword"
           :rules="rules"
           type="password"
           label="UserPassword"
-          class="text-black"
         ></v-text-field>
-        <v-btn class="mt-2" color="grey" type="submit" block>Register</v-btn>
+        <v-btn class="mt-2" color="#096123" type="submit" block>Register</v-btn>
       </v-form>
     </v-sheet>
   </main>
@@ -62,5 +63,24 @@ label {
 .v-label {
   color: black;
   opacity: 0.8;
+}
+
+.background {
+  background-color: transparent !important;
+  margin-top: 32px !important;
+}
+.form-register {
+  margin-top: 100px !important;
+  background-color: transparent !important;
+}
+.background-register {
+  background-image: url("@/assets/background.png");
+  background-size: 80%;
+  background-position: 100% 210%; /* venstre bund */
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+input[type="text"] {
+  background-color: white !important;
 }
 </style>
