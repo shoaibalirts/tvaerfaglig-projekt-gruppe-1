@@ -2,11 +2,9 @@
   <the-header />
   <div class="wrapper">
     <v-form id="list-form" @submit.prevent="handleSaveList">
-      <div></div>
-      <label for="name-input"></label>
+      <label for="name-input">Skriv navn</label>
       <v-text-field
         id="name-input"
-        placeholder="Skriv navn"
         v-model="listName"
         :rules="validationRules"
         variant="solo"
@@ -28,10 +26,11 @@
         </v-list-item>
       </v-list>
 
+      <label for="products-input">Vælg produkt</label>
       <v-combobox
+        id="products-input"
         :items="productsList"
         item-value="value"
-        label="Vælg produkt"
         v-model="selectedItem"
         @update:model-value="setShoppingListData"
         variant="solo"
