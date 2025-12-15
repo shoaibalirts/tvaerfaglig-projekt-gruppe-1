@@ -25,6 +25,7 @@
 <script>
 import { io } from "socket.io-client";
 import ToolBar from "@/components/layout/ToolBar.vue";
+import { Timestamp } from "firebase/firestore";
 
 const socket = io("http://localhost:3000", {
   withCredentials: true,
@@ -38,7 +39,16 @@ socket.emit("messageFromClient", (message) => {
 socket.on("messageFromServerReceivedFromClient", (message) => {
   console.log("messageFromServerReceivedFromClient: ", message);
 });
-
+// handle server deliveredMessage with acknowledgement
+socket.on("deliveredMessage", (message, callback) => {
+  // send acknowledgement back to the server
+  console.log("Received delivery of the message", message);
+  callback({
+    status: "received",
+    message: "Thanks for the delivery of the message",
+    Timestamp: new Date(),
+  });
+});
 export default {
   components: {
     ToolBar,

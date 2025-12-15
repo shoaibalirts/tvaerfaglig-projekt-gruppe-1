@@ -72,11 +72,22 @@ io.on("connection", (socket) => {
     "messageFromServer",
     `${socket.user.user_name}: What are you saying`
   );
+  // message received from client
   socket.on("messageFromClient", (message) => {
-    console.log("message received from client: ", message);
+    console.log("message received from client: ", message); // broadcasting this message to all connected users except the user who is sending this message
     // this message will be saved in MySql user table
     // user_message
+    socket.broadcast.emit("messageFromServer", message);
   });
+  // acknowledgement
+  // send an event with acknowledgement
+  socket.emit(
+    "deliveredMessage",
+    "Hello! Welcome to the server",
+    (response) => {
+      console.log("The client has received the message", response);
+    }
+  );
 
   socket.on("disconnect", () => {
     console.log(`The user disconnected who had id: ${socket.id}`);
