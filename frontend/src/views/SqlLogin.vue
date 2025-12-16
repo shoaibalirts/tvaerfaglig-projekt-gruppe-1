@@ -3,17 +3,20 @@
     <admin-header />
     <v-sheet class="mx-auto" width="300">
       <v-form @submit.prevent="login">
+        <label for="user_name">Bruger navn</label>
         <v-text-field
+          id="user_name"
           v-model="Username"
           :rules="rules"
-          label="Username"
           class="text-black"
         ></v-text-field>
+
+        <label for="password">Kodeord</label>
         <v-text-field
+          id="password"
           v-model="UserPassword"
           :rules="rules"
           type="password"
-          label="UserPassword"
           class="text-black"
         ></v-text-field>
         <v-btn color="grey" :to="{ path: '/register' }">Register</v-btn>

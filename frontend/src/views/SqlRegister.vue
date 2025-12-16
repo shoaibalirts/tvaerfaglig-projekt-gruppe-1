@@ -3,19 +3,22 @@
     <admin-header />
     <v-sheet class="mx-auto background" width="300">
       <v-form class="form-register" @submit.prevent="register">
+        <label for="user_name">Bruger navn</label>
         <v-text-field
+          id="user_name"
           class="input-field"
           v-model="Username"
           :rules="rules"
-          label="Username"
         ></v-text-field>
+
+        <label for="password">Kodeord</label>
         <v-text-field
           style="backgroundcolor: white; marign: 0px; padding: 0px"
           class="input-field text-black"
           v-model="UserPassword"
           :rules="rules"
+          id="password"
           type="password"
-          label="UserPassword"
         ></v-text-field>
         <v-btn class="mt-2" color="#096123" type="submit" block>Register</v-btn>
       </v-form>
@@ -55,11 +58,6 @@ export default {
 };
 </script>
 <style scoped>
-label {
-  font-size: 12px;
-  color: gray;
-}
-
 .v-label {
   color: black;
   opacity: 0.8;
