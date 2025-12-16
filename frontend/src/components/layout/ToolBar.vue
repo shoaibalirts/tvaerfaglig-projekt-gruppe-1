@@ -2,13 +2,13 @@
   <v-toolbar>
     <v-toolbar class="text-center bg-primary">
       <template v-slot:prepend>
-        <v-btn :icon="mdiChevronLeft" @click="handleClickBackBtn"></v-btn>
+        <v-btn :icon="mdiChevronLeft" @click="handleClickBackBtn" aria-label="go back"></v-btn>
       </template>
 
       <v-toolbar-title>{{ toolbarTitle }}</v-toolbar-title>
 
       <template v-slot:append>
-        <v-btn :icon="mdiHome" @click="handleClickHomePage"></v-btn>
+        <v-btn :icon="mdiHome" @click="handleClickHomePage" aria-label="go to homepage"></v-btn>
       </template>
     </v-toolbar>
   </v-toolbar>

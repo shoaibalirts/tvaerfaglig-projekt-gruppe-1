@@ -7,6 +7,7 @@
           size="large"
           :to="{ path: '/addproduct' }"
           class="text-center bg-primary rounded-b-circle"
+          aria-label="add product"
         ></v-btn>
       </v-col>
     </v-row>
