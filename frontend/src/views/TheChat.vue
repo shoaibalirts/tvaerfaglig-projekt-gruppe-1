@@ -20,11 +20,43 @@
       />
       <button type="submit" class="send-button">Send</button>
     </form>
+    <div class="user-list">
+      <h3>Select a user to chat with:</h3>
+      <div
+        v-for="user in userList"
+        :key="user.user_id"
+        class="user-item"
+        :class="{ active: activeChatUserId === user.user_id }"
+        @click="selectUser(user.user_id)"
+      >
+        {{ user.user_name }}
+      </div>
+    </div>
+    <div v-if="activeChatUserId" class="active-chat">
+      Chatting with user ID: {{ activeChatUserId }}
+    </div>
   </div>
 </template>
+
+<!-- <template>
+  <form class="input-container" @submit.prevent="handleSendMessage">
+    <input
+      type="text"
+      id="messageInput"
+      v-model="userInput"
+      :rules="rules"
+      placeholder="Type your message..."
+    />
+    <button type="submit" class="send-button">Send</button>
+  </form>
+</template> -->
 <script>
 import { io } from "socket.io-client";
 import ToolBar from "@/components/layout/ToolBar.vue";
+import { getUsers, getMessages } from "../api.js";
+// getUsers();
+
+// import { Timestamp } from "firebase/firestore";
 
 const socket = io("http://localhost:3000", {
   withCredentials: true,
@@ -35,10 +67,20 @@ socket.on("messageFromServer", (message) => {
 socket.emit("messageFromClient", (message) => {
   console.log("MessageFromClient", message);
 });
+
 socket.on("messageFromServerReceivedFromClient", (message) => {
   console.log("messageFromServerReceivedFromClient: ", message);
 });
-
+// handle server deliveredMessage with acknowledgement
+socket.on("deliveredMessage", (message, callback) => {
+  // send acknowledgement back to the server
+  console.log("Received delivery of the message", message);
+  callback({
+    status: "received",
+    message: "Thanks for the delivery of the message",
+    Timestamp: new Date(),
+  });
+});
 export default {
   components: {
     ToolBar,
@@ -52,15 +94,25 @@ export default {
       messageFromClient: "",
       sender: "",
       socket: null,
+      currentUserId: null,
+      activeChatUserId: null,
+      userList: [],
     };
   },
+  /*
   methods: {
     // sending message to server from client
     handleSendMessage() {
       if (!this.userInput) return;
 
       this.addMessage(this.userInput, "client");
-      this.socket.emit("messageFromClient", this.userInput);
+      // this.socket.emit("messageFromClient", this.userInput);
+      this.socket.emit("privateMessage", {
+        // receiver_id: this.currentUserId === 10 ? 5 : 10,
+        receiver_id: this.activeChatUserId,
+        message: this.userInput,
+      });
+
       this.userInput = "";
     },
     addMessage(message, sender) {
@@ -70,22 +122,79 @@ export default {
       });
     },
   },
+  */
+  methods: {
+    async selectUser(userId) {
+      this.activeChatUserId = userId;
+      const history = await getMessages(this.currentUserId, userId);
+      // this.messages = []; // clear previous messages
+      this.messages = history.map((m) => ({
+        message: m.message,
+        sender: m.sender_user_id === this.currentUserId ? "client" : "server",
+      }));
+    },
+    handleSendMessage() {
+      if (!this.userInput || !this.activeChatUserId) return;
 
-  mounted() {
+      this.addMessage(this.userInput, "client");
+      this.socket.emit("privateMessage", {
+        receiver_id: this.activeChatUserId,
+        message: this.userInput,
+      });
+      this.userInput = "";
+    },
+    addMessage(message, sender) {
+      this.messages.push({ message, sender });
+    },
+  },
+  async mounted() {
     this.socket = io("http://localhost:3000", {
       withCredentials: true,
     });
     // listening an event from the server
     // receiving message to client from server
-
-    this.socket.on("messageFromServer", (message) => {
-      this.addMessage(message, "server");
+    const token = this.$cookies.get("token");
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    this.currentUserId = payload.id;
+    const users = await getUsers();
+    // getUsers().then((users) => {
+    this.userList = users.filter((u) => u.user_id !== this.currentUserId);
+    // });
+    console.log("Loaded users:", this.userList);
+    // if (this.currentUserId === 5) {
+    //   this.activeChatUserId = 10;
+    // } else if (this.currentUserId === 10) {
+    //   this.activeChatUserId = 5;
+    // }
+    this.socket.on("messageFromServer", (msg) => {
+      const isFromMe = msg.sender_id === this.currentUserId;
+      this.addMessage(msg.message, isFromMe ? "client" : "server");
+      // this.addMessage(message, "server");
     });
   },
 };
 </script>
 
 <style scoped>
+.user-list {
+  padding: 10px;
+  background: #f0f4f8;
+  border-bottom: 1px solid #ccc;
+}
+
+.user-item {
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  background: #e1f0ff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.user-item:hover {
+  background: #cce4ff;
+}
+
 .chat-container {
   width: 100%;
   max-width: 480px;
@@ -186,5 +295,17 @@ h1 {
 
 .send-button:hover {
   background: #0d60b3;
+}
+.user-item.active {
+  background: #1976d2;
+  color: white;
+  font-weight: bold;
+}
+.active-chat {
+  padding: 10px;
+  background: #e8f0fe;
+  border-bottom: 1px solid #ccc;
+  font-weight: 600;
+  color: #333;
 }
 </style>

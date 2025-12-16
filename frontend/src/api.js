@@ -130,3 +130,25 @@ export function logout() {
       console.log("Error when logging out: " + error);
     });
 }
+
+export function getUsers() {
+  return axios
+    .get(`${API}/chat`)
+    .then((results) => {
+      // console.log("Api call for getting or reading all products:");
+
+      console.log(results.data);
+      return results.data;
+    })
+    .catch(function (error) {
+      // handle error
+      console.log("frontend API calling error: " + error);
+    })
+    .finally(function () {
+      // always executed
+    });
+}
+
+export function getMessages(userId, otherUserId) {
+  return axios.get(`${API}/messages/${userId}/${otherUserId}`).then((res) => res.data);
+}

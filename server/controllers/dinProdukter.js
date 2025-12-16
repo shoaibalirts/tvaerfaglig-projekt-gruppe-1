@@ -270,3 +270,45 @@ export const getMessagesFromClient = async (req, res, next) => {
     res.json(results);
   });
 };
+// @desc      Get all users
+// @route     Get /api/dinprodukter
+// @access    Public
+
+export const getUsers = async (req, res, next) => {
+  // reading all users from MySql user table
+  let query =
+    "SELECT user_id, user_name, user_password, user_role_name FROM user";
+
+  connection.query(query, function (error, results, fields) {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    console.log(results);
+
+    res.json(results);
+  });
+};
+
+export const getMessages = async (req, res, next) => {
+  const { userId, otherUserId } = req.params;
+  // reading all messages from MySql message table
+  const query = ` SELECT * FROM message 
+                    WHERE 
+                      (sender_user_id = ? AND receiver_user_id = ?) 
+                    OR 
+                      (sender_user_id = ? AND receiver_user_id = ?) 
+                    ORDER BY created_at ASC `;
+
+  connection.query(
+    query,
+    [userId, otherUserId, otherUserId, userId],
+    (error, results) => {
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+      // console.log(results);
+
+      res.json(results);
+    }
+  );
+};

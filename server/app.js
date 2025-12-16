@@ -7,7 +7,7 @@ import requireDebugCookie from "../server/middleware/requireDebugCookie.js";
 import authenticateToken from "../server/middleware/authenticateToken.js";
 import cookie from "cookie";
 import jwt from "jsonwebtoken";
-
+import connection from "./database.js";
 ///////// For chat
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -24,7 +24,8 @@ import {
   signin,
   signout,
   createUser,
-  getMessagesFromClient,
+  getUsers,
+  getMessages,
 } from "../server/controllers/dinProdukter.js";
 // Get current file's directory
 const __filename = fileURLToPath(import.meta.url);
@@ -42,6 +43,7 @@ const io = new Server(httpServer, {
     credentials: true,
   },
 });
+const onlineUsers = {};
 io.on("connection", (socket) => {
   const cookies = cookie.parse(socket.handshake.headers.cookie || "");
   const token = cookies.token;
@@ -57,29 +59,69 @@ io.on("connection", (socket) => {
     console.log("try block");
 
     user = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("user data is:"); // {id:10, user_name:'fatimaali', iat:1765806231, exp:1765809831}
+    console.log(user);
   } catch (error) {
     console.log("Invalid or missing cookie token");
     console.log(error.message);
 
     socket.disconnect();
   }
+  // console.log("socket data is: ");
+  // console.log(socket);
 
-  socket.user = user;
+  socket.user = user; // socket.user = {id:10, user_name:'fatimaali', iat:1765806231, exp:1765809831}
 
-  console.log(`User connected: ${user.user_name}`);
-  // it is not working
-  socket.emit(
-    "messageFromServer",
-    `${socket.user.user_name}: What are you saying`
-  );
-  socket.on("messageFromClient", (message) => {
-    console.log("message received from client: ", message);
-    // this message will be saved in MySql user table
-    // user_message
+  console.log(`User connected name: ${user.user_name}`); // shoaib1
+  console.log(`User connected id: ${user.id}`); // 5
+  console.log(`Socket connected id: ${socket.id}`); // 8SgJAZwcJ3s_bsXFAAAB
+
+  onlineUsers[user.id] = socket.id;
+  console.log("Online users");
+  console.log(onlineUsers); // {'5', '8SgJAZwcJ3s_bsXFAAAB'}
+
+  // socket.emit(
+  //   "messageFromServer",
+  //   `${socket.user.user_name}: What are you saying`
+  // );
+  // message received from client
+  // socket.on("messageFromClient", (message) => {
+  //   console.log("message received from client: ", message); // broadcasting this message to all connected users except the user who is sending this message
+  //   // this message will be saved in MySql user table
+  //   // user_message
+  //   socket.broadcast.emit("messageFromServer", message);
+  // });
+  socket.on("privateMessage", ({ receiver_id, message }) => {
+    const sender_id = socket.user.id;
+    const query = `INSERT INTO message 
+                    (sender_user_id, receiver_user_id, message)
+                   VALUES
+                    (?,?,?)
+                  `;
+    connection.query(query, [sender_id, receiver_id, message]);
+    const receiverSoketId = onlineUsers[receiver_id];
+    if (receiverSoketId) {
+      io.to(receiverSoketId).emit("messageFromServer", {
+        message: message,
+        // sender_id: socket.user.id,
+        sender_id: sender_id,
+      });
+    }
   });
+  // acknowledgement
+  // send an event with acknowledgement
+  socket.emit(
+    "deliveredMessage",
+    "Hello! Welcome to the server",
+    (response) => {
+      console.log("The client has received the message", response);
+    }
+  );
 
   socket.on("disconnect", () => {
     console.log(`The user disconnected who had id: ${socket.id}`);
+    delete onlineUsers[user.id];
+    console.log(onlineUsers);
   });
 });
 
@@ -107,11 +149,12 @@ router.route("/signup").post(createUser);
 app.use("/api/dinprodukter", authenticateToken);
 
 router.route("/products").get(requireDebugCookie, getAllProducts);
+router.route("/chat").get(getUsers);
 router
   .route("/")
   .get(getAllProducts) // reading all products from MySql product table
   .post(createProduct);
-// router.route("/chat").get(getMessagesFromClient);
+
 router.route("/createproduct").post(createProduct); // creating a new product by loggedin user
 
 router
@@ -119,6 +162,7 @@ router
   .get(getProduct)
   .put(updateProduct)
   .delete(deleteProduct);
+router.route("/messages/:userId/:otherUserId").get(getMessages);
 
 app.use("/api/dinprodukter", router);
 // app.set("view engine", ".hbs");
