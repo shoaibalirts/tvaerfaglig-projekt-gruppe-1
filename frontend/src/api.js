@@ -147,3 +147,7 @@ export function getUsers() {
       // always executed
     });
 }
+
+export function getMessages(userId, otherUserId) {
+  return axios.get(`${API}/messages/${userId}/${otherUserId}`).then((res) => res.data);
+}

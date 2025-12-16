@@ -53,7 +53,7 @@
 <script>
 import { io } from "socket.io-client";
 import ToolBar from "@/components/layout/ToolBar.vue";
-import { getUsers } from "../api.js";
+import { getUsers, getMessages } from "../api.js";
 // getUsers();
 
 // import { Timestamp } from "firebase/firestore";
@@ -124,9 +124,14 @@ export default {
   },
   */
   methods: {
-    selectUser(userId) {
+    async selectUser(userId) {
       this.activeChatUserId = userId;
-      this.messages = []; // clear previous messages
+      const history = await getMessages(this.currentUserId, userId);
+      // this.messages = []; // clear previous messages
+      this.messages = history.map((m) => ({
+        message: m.message,
+        sender: m.sender_user_id === this.currentUserId ? "client" : "server",
+      }));
     },
     handleSendMessage() {
       if (!this.userInput || !this.activeChatUserId) return;

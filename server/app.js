@@ -7,7 +7,7 @@ import requireDebugCookie from "../server/middleware/requireDebugCookie.js";
 import authenticateToken from "../server/middleware/authenticateToken.js";
 import cookie from "cookie";
 import jwt from "jsonwebtoken";
-
+import connection from "./database.js";
 ///////// For chat
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -25,6 +25,7 @@ import {
   signout,
   createUser,
   getUsers,
+  getMessages,
 } from "../server/controllers/dinProdukter.js";
 // Get current file's directory
 const __filename = fileURLToPath(import.meta.url);
@@ -91,11 +92,19 @@ io.on("connection", (socket) => {
   //   socket.broadcast.emit("messageFromServer", message);
   // });
   socket.on("privateMessage", ({ receiver_id, message }) => {
+    const sender_id = socket.user.id;
+    const query = `INSERT INTO message 
+                    (sender_user_id, receiver_user_id, message)
+                   VALUES
+                    (?,?,?)
+                  `;
+    connection.query(query, [sender_id, receiver_id, message]);
     const receiverSoketId = onlineUsers[receiver_id];
     if (receiverSoketId) {
       io.to(receiverSoketId).emit("messageFromServer", {
         message: message,
-        sender_id: socket.user.id,
+        // sender_id: socket.user.id,
+        sender_id: sender_id,
       });
     }
   });
@@ -153,6 +162,7 @@ router
   .get(getProduct)
   .put(updateProduct)
   .delete(deleteProduct);
+router.route("/messages/:userId/:otherUserId").get(getMessages);
 
 app.use("/api/dinprodukter", router);
 // app.set("view engine", ".hbs");
