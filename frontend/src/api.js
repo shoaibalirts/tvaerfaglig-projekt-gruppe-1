@@ -14,6 +14,7 @@ export function signup(data) {
     })
     .catch(function (error) {
       console.log("Error when signing in: " + error);
+      return error;
     });
 }
 

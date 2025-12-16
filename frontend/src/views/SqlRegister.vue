@@ -9,6 +9,7 @@
           class="input-field"
           v-model="Username"
           :rules="rules"
+          :error-messages="errorMessage"
         ></v-text-field>
 
         <label for="password">Kodeord</label>
@@ -38,6 +39,7 @@ export default {
       UserPassword: "",
       UserRole: "admin",
       rules: [(v) => !!v || "Field is required"],
+      errorMessage: "",
     };
   },
   methods: {
@@ -49,9 +51,12 @@ export default {
       };
 
       const signupUser = await signup(data);
+
       if (signupUser === 201) {
         alert(`Bruger ${this.Username} er oprettet, venligst login`);
         this.$router.push(`/login`);
+      } else {
+        this.errorMessage = signupUser.response.data.error;
       }
     },
   },

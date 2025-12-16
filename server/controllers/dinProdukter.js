@@ -146,7 +146,7 @@ export const createUser = async (req, res) => {
     }
 
     if (results.length > 0) {
-      return res.status(400).send("User name is already taken.");
+      return res.status(400).json({ error: "User name is already taken." });
     }
 
     const hashedPassword = await bcrypt.hash(req.body.user_password, 15);
