@@ -26,10 +26,14 @@
         v-for="user in userList"
         :key="user.user_id"
         class="user-item"
+        :class="{ active: activeChatUserId === user.user_id }"
         @click="selectUser(user.user_id)"
       >
         {{ user.user_name }}
       </div>
+    </div>
+    <div v-if="activeChatUserId" class="active-chat">
+      Chatting with user ID: {{ activeChatUserId }}
     </div>
   </div>
 </template>
@@ -50,7 +54,7 @@
 import { io } from "socket.io-client";
 import ToolBar from "@/components/layout/ToolBar.vue";
 import { getUsers } from "../api.js";
-getUsers();
+// getUsers();
 
 // import { Timestamp } from "firebase/firestore";
 
@@ -138,7 +142,7 @@ export default {
       this.messages.push({ message, sender });
     },
   },
-  mounted() {
+  async mounted() {
     this.socket = io("http://localhost:3000", {
       withCredentials: true,
     });
@@ -147,10 +151,11 @@ export default {
     const token = this.$cookies.get("token");
     const payload = JSON.parse(atob(token.split(".")[1]));
     this.currentUserId = payload.id;
-
-    getUsers().then((users) => {
-      this.userList = users.filter((u) => u.user_id !== this.currentUserId);
-    });
+    const users = await getUsers();
+    // getUsers().then((users) => {
+    this.userList = users.filter((u) => u.user_id !== this.currentUserId);
+    // });
+    console.log("Loaded users:", this.userList);
     // if (this.currentUserId === 5) {
     //   this.activeChatUserId = 10;
     // } else if (this.currentUserId === 10) {
@@ -285,5 +290,17 @@ h1 {
 
 .send-button:hover {
   background: #0d60b3;
+}
+.user-item.active {
+  background: #1976d2;
+  color: white;
+  font-weight: bold;
+}
+.active-chat {
+  padding: 10px;
+  background: #e8f0fe;
+  border-bottom: 1px solid #ccc;
+  font-weight: 600;
+  color: #333;
 }
 </style>
