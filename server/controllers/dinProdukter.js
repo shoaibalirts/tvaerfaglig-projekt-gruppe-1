@@ -288,3 +288,27 @@ export const getUsers = async (req, res, next) => {
     res.json(results);
   });
 };
+
+export const getMessages = async (req, res, next) => {
+  const { userId, otherUserId } = req.params;
+  // reading all messages from MySql message table
+  const query = ` SELECT * FROM message 
+                    WHERE 
+                      (sender_user_id = ? AND receiver_user_id = ?) 
+                    OR 
+                      (sender_user_id = ? AND receiver_user_id = ?) 
+                    ORDER BY created_at ASC `;
+
+  connection.query(
+    query,
+    [userId, otherUserId, otherUserId, userId],
+    (error, results) => {
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+      // console.log(results);
+
+      res.json(results);
+    }
+  );
+};
