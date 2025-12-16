@@ -3,14 +3,17 @@
     <tool-bar toolbarTitle="Tilføj dine Produkter" />
     <v-sheet class="mx-auto ma-14" width="300">
       <v-form ref="form" @submit.prevent="submitProduct">
+        <label for="product_name">Produkt Navn</label>
         <v-text-field
           v-model="prodName"
-          label="Produkt Navn"
+          id="product_name"
           :rules="[rules.required, rules.prodNameLength]"
         ></v-text-field>
+
+        <label for="product_co2">CO2</label>
         <v-text-field
           v-model="prodCo2"
-          label="Co2"
+          id="product_co2"
           :rules="[rules.required, rules.prodNameLength]"
           type="number"
           step="0.01"
