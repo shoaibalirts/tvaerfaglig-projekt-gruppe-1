@@ -1,9 +1,17 @@
 <template>
-  <header>
+  <header class="header-mobile">
     <p>{{ $route.meta.Desc }}</p>
     <h1>{{ $route.meta.adminHeaderTitle }}</h1>
+
+    <nav class="header-desktop">
+      <li>Dine lister</li>
+      <li>Tilføj liste</li>
+
+    </nav>
   </header>
+  
 </template>
+
 
 <script>
 export default {
@@ -26,4 +34,20 @@ header {
 
   box-shadow: inset 8px -40px 15px rgba(0, 0, 0, 0.25);
 }
+.header-desktop{
+  display: none;
+}
+
+@media(min-width: 700px){
+.header-mobile{
+  display:none;
+}
+.header-desktop{
+  display: flex;
+  width: 100vw;
+  background: red;
+
+}
+}
+
 </style>
