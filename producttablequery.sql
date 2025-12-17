@@ -6,6 +6,32 @@ CREATE TABLE product (prod_id INTEGER, prod_name VARCHAR(50),
        
 CREATE TABLE user (user_id INTEGER PRIMARY KEY auto_increment, user_name VARCHAR(50),
        user_password VARCHAR(50), user_role_name VARCHAR(50));
+DROP TABLE message;
+
+CREATE TABLE message (
+  msg_id INT AUTO_INCREMENT PRIMARY KEY,
+  sender_user_id INT NOT NULL,
+  receiver_user_id INT NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (sender_user_id) REFERENCES user(user_id),
+  FOREIGN KEY (receiver_user_id) REFERENCES user(user_id)
+);
+
+
+
+SELECT * FROM product;
+SELECT * FROM user;
+SELECT * FROM message;
+SELECT * FROM message WHERE sender_user_id=5;
+DELETE FROM user
+WHERE user_id = 8;
+
+SELECT user_id, msg_id, the_user_message FROM message; 
+SELECT user_id, user_name, user_password, user_role_name FROM user;
+
+    
+
 INSERT INTO user 
 	(user_name, user_password, user_role_name) 
 	VALUES 
@@ -23,11 +49,17 @@ ALTER TABLE product
 ADD prod_id INTEGER PRIMARY KEY auto_increment;
 ALTER TABLE product
 ADD curr_date DATE;
-SELECT * FROM product;
-SELECT * FROM user;
+ALTER TABLE user DROP COLUMN prod_id;
 
 ALTER TABLE user
 MODIFY COLUMN user_password VARCHAR(254);
+
+ALTER TABLE user
+ADD COLUMN user_message VARCHAR(254);
+
+
+
+ALTER TABLE user DROP COLUMN user_message;
 
 INSERT INTO product 
 (prod_name, prod_co2, curr_date)
