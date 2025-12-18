@@ -1,6 +1,9 @@
 <template>
+<div>
   <v-app>
     <tool-bar toolbarTitle="Tilføj dine Produkter" />
+    <template v-if="$vuetify.display.smAndDown">
+  
     <v-sheet class="mx-auto ma-14" width="300">
       <v-form ref="form" @submit.prevent="submitProduct">
         <label for="product_name">Produkt Navn</label>
@@ -27,12 +30,20 @@
         <v-btn color="white" bg-primary variant="text" @click="snackbar.show = false"> Luk </v-btn>
       </template>
     </v-snackbar>
+      </template>
+
+     <template v-else>
+      <DesktopProducts />
+    </template>
   </v-app>
+        </div>
+
 </template>
 
 <script>
 import { addProduct } from "@/api";
 import ToolBar from "@/components/layout/ToolBar.vue";
+import DesktopProducts from "@/views/DesktopProducts.vue";
 
 export default {
   props: {
@@ -40,6 +51,7 @@ export default {
   },
   components: {
     ToolBar,
+    DesktopProducts,
   },
   data() {
     return {
