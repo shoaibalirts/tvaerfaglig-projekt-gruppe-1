@@ -81,30 +81,28 @@
       </div>
 
       <div style="width: 120px; text-align: right;">
-        <v-icon
-          color="green"
-          class="mr-3"
-          @click="startEdit(product)"
-        >
-          mdi-pencil
-        </v-icon>
+  <v-icon
+    :icon="mdiPencil"
+    color="green"
+    class="mr-3"
+    @click="startEdit(product)"
+  />
 
-        <v-icon
-          v-if="editId === product.id"
-          color="green"
-          class="mr-3"
-          @click="saveEdit(product.id)"
-        >
-          mdi-content-save
-        </v-icon>
+  <v-icon
+    v-if="editId === product.id"
+    :icon="mdiContentSave"
+    color="green"
+    class="mr-3"
+    @click="saveEdit(product.id)"
+  />
 
-        <v-icon
-          color="red"
-          @click="removeProduct(product.id)"
-        >
-          mdi-delete
-        </v-icon>
-      </div>
+  <v-icon
+    :icon="mdiDelete"
+    color="red"
+    @click="removeProduct(product.id)"
+  />
+</div>
+
     </v-card>
   </v-container>
 </template>
@@ -117,12 +115,16 @@ import {
   updateProduct,
   deleteProduct
 } from "@/api";
+import{mdiPencil,mdiContentSave,mdiDelete}from'@mdi/js';
 
 export default {
   name: "DesktopProducts",
 
   data() {
     return {
+      mdiPencil,
+      mdiContentSave,
+     mdiDelete,
       products: [],
       showAddRow: false,
       activeAddRow: false,
