@@ -2,7 +2,7 @@
 <div>
   <v-app>
     <tool-bar toolbarTitle="Tilføj dine Produkter" />
-    <template v-if="$vuetify.display.smAndDown">
+    <template v-if="$vuetify.display.xs">
   
     <v-sheet class="mx-auto ma-14" width="300">
       <v-form ref="form" @submit.prevent="submitProduct">
