@@ -22,7 +22,7 @@
     <div class="add-mobile-green">
     <img :src="backgroundImage" class="img"></img>
     <h2 class="white">Download appen!</h2>
-    <v-btn>Download appen</v-btn>
+    <v-btn class="download-btn">Download appen</v-btn>
 
     </div>
    
@@ -77,16 +77,22 @@ export default {
   flex-direction: column;
   /* justify-content: center;
    */
+   background-color:white;
+   height: 100%;
     
 }
+.h2-login{
+ color: #096123;
+}
 .content{
-/* background: red; */
   display:flex;
   flex-direction: column;
   justify-content: center !important;
   align-items:center;
   width: 100vw;  
-  margin-top: ;
+  margin-top:200px ;
+  padding-bottom: 32px;
+  padding-top: 32px;
 }
 .add-mobile-green{
   /* background-color:blanchedalmond; */
@@ -98,7 +104,6 @@ header{
 z-index: 1;
 }
 main{
-  /* background-color:yellow; */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -159,12 +164,12 @@ height: 100%;
 .add-mobile-green::before {
   content: "";
   position: absolute;
-  /* left: -120px;        trækker formen ind over venstre side */
+  left: -100px;        
   top: 0;
   width: 240px;
-  height: 100%;
-  background: #096123;
-  border-radius: 100% 0 0 100%;
+  height: 100%!important;
+  background: #ffffff;
+  border-radius: 0% 100% 100% 0%;
 }
 .add-mobile-green > * {
   position: relative;
@@ -186,7 +191,12 @@ padding-top: 32px;
   right:-10%;
   width: 40%;
   bottom:-10%;
-  width: 400px;
+  width: 380px;
 }
+.download-btn{
+  margin-bottom: 150px;
+  box-shadow: black 50% 50% 50% 50%;
+}
+
 }
 </style>
