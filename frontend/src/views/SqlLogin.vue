@@ -157,6 +157,9 @@ height: 100%;
 .content {
   display: flex;
   flex-direction: row;
+  margin: 0;
+  padding: 0;
+  margin-top: 0!important;
   width: 100vw;
   height: 100vh;
 }
