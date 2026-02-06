@@ -16,6 +16,9 @@ npm install
 
 ```sh
 navigate to frontend folder and then
+
+```sh
+used MySql
 npm run dev
 frontend is running on port 5173
 
